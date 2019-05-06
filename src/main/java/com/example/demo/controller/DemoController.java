@@ -31,6 +31,7 @@ public class DemoController {
     @ResponseBody
     @PostMapping("/login")
     public String postLogin(String username, String password) {
+
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
         Subject currentUser = SecurityUtils.getSubject();
         try {

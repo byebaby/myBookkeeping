@@ -1,6 +1,8 @@
 package com.example.demo.config;
 
 import com.zaxxer.hikari.HikariDataSource;
+import org.apache.shiro.cache.CacheManager;
+import org.apache.shiro.cache.MemoryConstrainedCacheManager;
 import org.apache.shiro.realm.Realm;
 import org.apache.shiro.realm.jdbc.JdbcRealm;
 import org.apache.shiro.spring.web.config.DefaultShiroFilterChainDefinition;
@@ -52,5 +54,10 @@ public class ShiroConfig {
          */
         defaultAdvisorAutoProxyCreator.setUsePrefix(true);
         return defaultAdvisorAutoProxyCreator;
+    }
+
+    @Bean
+    protected CacheManager cacheManager() {
+        return new MemoryConstrainedCacheManager();
     }
 }
