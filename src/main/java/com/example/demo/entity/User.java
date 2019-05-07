@@ -1,35 +1,35 @@
 package com.example.demo.entity;
 
+import javax.persistence.*;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
-
+@Entity
+@Table(name = "users")
 public class User {
-    private Long uid;       // 用户id
-    private String uname;   // 登录名，不可改
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;       // 用户id
+    private String username;   // 登录名，不可改
     private String nick;    // 用户昵称，可改
-    private String pwd;     // 已加密的登录密码
-    private String salt;    // 加密盐值
+    private String password;     // 已加密的登录密码
+    private String password_salt;    // 加密盐值
     private Date created;   // 创建时间
     private Date updated;   // 修改时间
-    private Set<String> roles = new HashSet<>();    //用户所有角色值，用于shiro做角色权限的判断
-    private Set<String> perms = new HashSet<>();    //用户所有权限值，用于shiro做资源权限的判断
 
-    public Long getUid() {
-        return uid;
+    public Long getId() {
+        return id;
     }
 
-    public void setUid(Long uid) {
-        this.uid = uid;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getUname() {
-        return uname;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUname(String uname) {
-        this.uname = uname;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getNick() {
@@ -40,20 +40,20 @@ public class User {
         this.nick = nick;
     }
 
-    public String getPwd() {
-        return pwd;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPwd(String pwd) {
-        this.pwd = pwd;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public String getSalt() {
-        return salt;
+    public String getPassword_salt() {
+        return password_salt;
     }
 
-    public void setSalt(String salt) {
-        this.salt = salt;
+    public void setPassword_salt(String password_salt) {
+        this.password_salt = password_salt;
     }
 
     public Date getCreated() {
@@ -72,19 +72,4 @@ public class User {
         this.updated = updated;
     }
 
-    public Set<String> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<String> roles) {
-        this.roles = roles;
-    }
-
-    public Set<String> getPerms() {
-        return perms;
-    }
-
-    public void setPerms(Set<String> perms) {
-        this.perms = perms;
-    }
 }

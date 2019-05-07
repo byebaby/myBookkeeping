@@ -1,9 +1,11 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.User;
+import com.example.demo.entity.UserRole;
+import com.example.demo.service.UserRoleService;
 import com.example.demo.service.UserService;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.*;
+import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.annotation.RequiresGuest;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,15 +14,25 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
+
 
 @Controller
 public class DemoController {
 
     private final UserService userService;
+    private final
+    UserRoleService userRoleService;
 
     @Autowired
-    public DemoController(UserService userService) {
+    public DemoController(UserService userService, UserRoleService userRoleService) {
         this.userService = userService;
+        this.userRoleService = userRoleService;
+    }
+
+    @GetMapping("/register")
+    public String getRegister() {
+        return "register";
     }
 
     @GetMapping("/login")
@@ -30,25 +42,12 @@ public class DemoController {
 
     @ResponseBody
     @PostMapping("/login")
-    public String postLogin(String username, String password) {
+    public List<UserRole> postLogin(String username, String password) {
 
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
         Subject currentUser = SecurityUtils.getSubject();
-        try {
-            currentUser.login(token);
-            currentUser.checkPermission("test");
-        } catch (UnknownAccountException uae) {
-            System.out.println("1");
-        } catch (IncorrectCredentialsException ice) {
-            System.out.println("2");
-        } catch (LockedAccountException lae) {
-            System.out.println("3");
-        } catch (ExcessiveAttemptsException eae) {
-            System.out.println("4");
-        } catch (AuthenticationException ae) {
-            System.out.println("5");
-        }
-        return username + password;
+        currentUser.login(token);
+        return userRoleService.findRoleByUserName(currentUser.getPrincipal().toString());
     }
 
     @RequiresGuest
