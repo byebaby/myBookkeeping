@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.User;
-import com.example.demo.entity.UserRole;
 import com.example.demo.service.UserRoleService;
 import com.example.demo.service.UserService;
 import com.example.demo.vo.Json;
@@ -9,9 +8,9 @@ import io.micrometer.core.instrument.util.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.annotation.RequiresGuest;
+import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.subject.Subject;
-import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -29,8 +27,7 @@ import java.util.regex.Pattern;
 public class LoginController {
 
     private final UserService userService;
-    private final
-    UserRoleService userRoleService;
+    private final UserRoleService userRoleService;
 
     @Autowired
     public LoginController(UserService userService, UserRoleService userRoleService) {
@@ -72,18 +69,18 @@ public class LoginController {
         user.setUsername(username);
         user.setCreated(date);
         user.setUpdated(date);
-        Map map = encrPassword(password);
+        Map map = encryptPassword(password);
         user.setPassword_salt(map.get("salt").toString());
         user.setPassword(map.get("saltPassword").toString());
         userService.save(user);
         return Json.succ("register", "注册成功").data("id", user.getId());
     }
 
-    private Map encrPassword(String password) {
+    private Map encryptPassword(String password) {
         Map<String, String> hashMap = new HashMap<>();
         String hashAlgorithmName = "MD5";//加密方式
         int hashIterations = 3;//加密3次
-        String salt = ByteSource.Util.bytes(password).toBase64();
+        String salt = new SecureRandomNumberGenerator().nextBytes().toBase64();
         String result = new SimpleHash(hashAlgorithmName, password, salt, hashIterations).toHex();
 
         hashMap.put("salt", salt);
@@ -98,12 +95,13 @@ public class LoginController {
 
     @ResponseBody
     @PostMapping("/login")
-    public List<UserRole> postLogin(String username, String password) {
+    public User postLogin(String username, String password) {
 
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
         Subject currentUser = SecurityUtils.getSubject();
         currentUser.login(token);
-        return userRoleService.findRoleByUserName(currentUser.getPrincipal().toString());
+        System.out.print(currentUser.getPrincipal().toString());
+        return userService.findUserByName(currentUser.getPrincipal().toString());
     }
 
     @RequiresGuest
