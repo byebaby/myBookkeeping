@@ -14,7 +14,7 @@
         <div class="layui-input-inline">
             <!-- 用户名 -->
             <div class="layui-inline" style="width: 85%">
-                <input type="text" id="user" name="account" required lay-verify="required" placeholder="请输入用户名"
+                <input type="text" id="user" name="account" required lay-verify="username" placeholder="请输入用户名"
                        autocomplete="off" class="layui-input">
             </div>
             <!-- 对号 -->
@@ -29,7 +29,7 @@
         <!-- 密码 -->
         <div class="layui-input-inline">
             <div class="layui-inline" style="width: 85%">
-                <input type="password" id="pwd" name="password" required lay-verify="required" placeholder="请输入密码"
+                <input type="password" id="pwd" name="password" required lay-verify="pass" placeholder="请输入密码"
                        autocomplete="off" class="layui-input">
             </div>
             <!-- 对号 -->
@@ -44,7 +44,7 @@
         <!-- 确认密码 -->
         <div class="layui-input-inline">
             <div class="layui-inline" style="width: 85%">
-                <input type="password" id="rpwd" name="repassword" required lay-verify="required" placeholder="请确认密码"
+                <input type="password" id="rpwd" name="repassword" required lay-verify="pass" placeholder="请确认密码"
                        autocomplete="off" class="layui-input">
             </div>
             <!-- 对号 -->
@@ -73,35 +73,24 @@
         var $ = layui.jquery;
         var layer = layui.layer;
         //验证表单
-
-        // you code ...
-        // 为密码添加正则验证
-        $('#pwd').blur(function () {
-            var reg = /^[\w]{6,12}$/;
-            if (!($('#pwd').val().match(reg))) {
-                //layer.msg('请输入合法密码');
-                $('#pwr').removeAttr('hidden');
-                $('#pri').attr('hidden', 'hidden');
-                layer.msg('请输入合法密码');
-            } else {
-                $('#pri').removeAttr('hidden');
-                $('#pwr').attr('hidden', 'hidden');
-            }
+        form.verify({
+            username: function (value) { //value：表单的值、item：表单的DOM对象
+                if (!new RegExp("^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$").test(value)) {
+                    return '用户名不能有特殊字符';
+                }
+                if (/(^\_)|(\__)|(\_+$)/.test(value)) {
+                    return '用户名首尾不能出现下划线\'_\'';
+                }
+                if (/^\d+\d+\d$/.test(value)) {
+                    return '用户名不能全为数字';
+                }
+            },
+            pass: [
+                /^[\S]{6,12}$/
+                , '密码必须6到12位，且不能出现空格'
+            ]
         });
 
-        //验证两次密码是否一致
-        $('#rpwd').blur(function () {
-            if ($('#pwd').val() != $('#rpwd').val()) {
-                $('#rpwr').removeAttr('hidden');
-                $('#rpri').attr('hidden', 'hidden');
-                layer.msg('两次输入密码不一致!');
-            } else {
-                $('#rpri').removeAttr('hidden');
-                $('#rpwr').attr('hidden', 'hidden');
-            }
-        });
-
-        //
         //添加表单监听事件,提交注册信息
         form.on('submit(sub)', function () {
             $.ajax({
