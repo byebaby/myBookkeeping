@@ -1,6 +1,7 @@
 package com.example.demo.config;
 
 import com.zaxxer.hikari.HikariDataSource;
+import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.cache.MemoryConstrainedCacheManager;
 import org.apache.shiro.realm.Realm;
@@ -29,10 +30,21 @@ public class ShiroConfig {
     public Realm realm() {
         JdbcRealm jdbcRealm = new JdbcRealm();
         jdbcRealm.setDataSource(hikariDataSource());
-        jdbcRealm.setPermissionsLookupEnabled(true);
+        jdbcRealm.setSaltStyle(JdbcRealm.SaltStyle.COLUMN);
         return jdbcRealm;
     }
 
+    @Bean
+    public HashedCredentialsMatcher hashedCredentialsMatcher(){
+        HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
+        //加密方式
+        hashedCredentialsMatcher.setHashAlgorithmName("MD5");
+        //加密次数
+        hashedCredentialsMatcher.setHashIterations(3);
+        //存储散列后的密码是否为16进制
+        hashedCredentialsMatcher.isStoredCredentialsHexEncoded();
+        return hashedCredentialsMatcher;
+    }
 
     @Bean
     public ShiroFilterChainDefinition shiroFilterChainDefinition() {

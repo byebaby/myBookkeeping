@@ -10,19 +10,19 @@ public class Json extends HashMap<String, Object> {
 
     /////////////////////// 默认的键 ///////////////////////
 
-    private static final String KEY_OPER = "oper";
-    private static final String KEY_SUCC = "succ";
-    private static final String KEY_CODE = "code";
-    private static final String KEY_MSG = "msg";
-    private static final String KEY_DATA = "data";
+    public static final String KEY_OPER = "oper";
+    public static final String KEY_SUCC = "succ";
+    public static final String KEY_CODE = "code";
+    public static final String KEY_MSG = "msg";
+    public static final String KEY_DATA = "data";
 
     /////////////////////// 默认的值 ///////////////////////
 
-    private static final String DEFAULT_OPER_VAL = "default";
-    private static final int DEFAULT_SUCC_CODE = 1;
-    private static final int DEFAULT_FAIL_CODE = -1;
-    private static final String DEFAULT_SUCC_MSG = "ok";
-    private static final String DEFAULT_FAIL_MSG = "fail";
+    public static final String DEFAULT_OPER_VAL = "default";
+    public static final int DEFAULT_SUCC_CODE = 1;
+    public static final int DEFAULT_FAIL_CODE = -1;
+    public static final String DEFAULT_SUCC_MSG = "ok";
+    public static final String DEFAULT_FAIL_MSG = "fail";
 
 
     /////////////////////// 最通用的两个构造函数 ///////////////////////

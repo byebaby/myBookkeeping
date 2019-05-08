@@ -14,7 +14,7 @@
         <div class="layui-input-inline">
             <!-- 用户名 -->
             <div class="layui-inline" style="width: 85%">
-                <input type="text" id="user" name="account" required lay-verify="username" placeholder="请输入用户名"
+                <input type="text" id="user" name="username" required lay-verify="username" placeholder="请输入用户名"
                        autocomplete="off" class="layui-input">
             </div>
             <!-- 对号 -->
@@ -72,49 +72,111 @@
         var form = layui.form;
         var $ = layui.jquery;
         var layer = layui.layer;
-        //验证表单
-        form.verify({
-            username: function (value) { //value：表单的值、item：表单的DOM对象
-                if (!new RegExp("^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$").test(value)) {
-                    return '用户名不能有特殊字符';
-                }
-                if (/(^\_)|(\__)|(\_+$)/.test(value)) {
-                    return '用户名首尾不能出现下划线\'_\'';
-                }
-                if (/^\d+\d+\d$/.test(value)) {
-                    return '用户名不能全为数字';
-                }
-            },
-            pass: [
-                /^[\S]{6,12}$/
-                , '密码必须6到12位，且不能出现空格'
-            ]
+
+        $('#pwd').blur(function () {
+            pwdcheck();
         });
+
+        function pwdcheck() {
+            var reg = /^[\w]{6,12}$/;
+            if (!($('#pwd').val().match(reg))) {
+                $('#pwr').removeAttr('hidden');
+                $('#pri').attr('hidden', 'hidden');
+                layer.msg('密码必须6到12位，且不能出现空格');
+                return false;
+            } else {
+                $('#pri').removeAttr('hidden');
+                $('#pwr').attr('hidden', 'hidden');
+                return true;
+            }
+        }
+
+        //验证两次密码是否一致
+        $('#rpwd').blur(function () {
+            rpwdcheck();
+        });
+
+        function rpwdcheck() {
+            if ($('#pwd').val() != $('#rpwd').val()) {
+                $('#rpwr').removeAttr('hidden');
+                $('#rpri').attr('hidden', 'hidden');
+                layer.msg('两次输入密码不一致!');
+                return false;
+            } else {
+                $('#rpri').removeAttr('hidden');
+                $('#rpwr').attr('hidden', 'hidden');
+                return true;
+            }
+
+        }
+
+        //验证用户名
+        $('#user').blur(function () {
+            usercheck();
+        });
+
+        function usercheck() {
+            var user = $('#user').val();
+            if (!new RegExp("^[a-zA-Z0-9\u4e00-\u9fa5\\s·]+$").test(user)) {
+                $('#wr').removeAttr('hidden');
+                $('#ri').attr('hidden', 'hidden');
+                layer.msg('用户名不能有特殊字符');
+                return false;
+            }
+            if (/^\d+\d+\d$/.test(user)) {
+                $('#wr').removeAttr('hidden');
+                $('#ri').attr('hidden', 'hidden');
+                layer.msg('用户名不能全为数字');
+                return false;
+            }
+            var flag = true;
+            $.ajax({
+                url: 'checkname',
+                type: 'post',
+                dataType: 'text',
+                data: {username: user},
+                //验证用户名是否可用
+                success: function (data) {
+                    data = $.parseJSON(data);
+                    if (data.code === 1) {
+                        $('#ri').removeAttr('hidden');
+                        $('#wr').attr('hidden', 'hidden');
+                    } else {
+                        $('#wr').removeAttr('hidden');
+                        $('#ri').attr('hidden', 'hidden');
+                        layer.msg('当前用户名已被占用! ');
+                        flag = false;
+                    }
+
+                }
+            });
+            return flag;
+
+        }
 
         //添加表单监听事件,提交注册信息
         form.on('submit(sub)', function () {
+
+            if (!pwdcheck() || !rpwdcheck() || !usercheck()) {
+                return false;
+            }
             $.ajax({
-                url: 'reg.php',
+                url: 'register',
                 type: 'post',
                 dataType: 'text',
                 data: {
-                    user: $('#user').val(),
-                    pwd: $('#pwd').val()
+                    username: $('#user').val(),
+                    password: $('#pwd').val()
                 },
                 success: function (data) {
-                    if (data == 1) {
-                        layer.msg('注册成功');
-                        ///location.href = "login.html";
-                    } else {
-                        layer.msg('注册失败');
-                    }
+
                 }
             });
             //防止页面跳转
             return false;
         });
-
     });
+
 </script>
 </body>
 </html>

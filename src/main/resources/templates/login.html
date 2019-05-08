@@ -8,7 +8,7 @@
     <header class="layui-elip">登录</header>
     <form class="layui-form">
         <div class="layui-input-inline">
-            <input type="text" name="account" required lay-verify="required" placeholder="用户名" autocomplete="off"
+            <input type="text" name="username" required lay-verify="required" placeholder="用户名" autocomplete="off"
                    class="layui-input">
         </div>
         <div class="layui-input-inline">
@@ -31,24 +31,19 @@
             , layer = layui.layer
             , $ = layui.jquery;
 
-        // // 提交监听
-        // form.on('submit(sub)', function (data) {
-        //     util.sendAjax ({
-        //         type: 'POST',
-        //         url: '#(ctxPath)/postLogin',
-        //         data: $.param(data.field),
-        //         loadFlag: true,
-        //         success : function(data) {
-        //             window.location.href = "/";
-        //         },
-        //         complete : function() {
-        //             // 刷新验证码
-        //             $("#captchaImg").attr('src', '#(ctxPath)/captcha?'+Math.random());
-        //         }
-        //     });
-        //
-        //     return false;
-        // });
+        // 提交监听
+        form.on('submit(login)', function (data) {
+            $.ajax({
+                type: 'POST',
+                url: 'login',
+                data: $.param(data.field)
+                // success: function (data) {
+                //     window.location.href = "/";
+                // }
+            });
+
+            return false;
+        });
     })
 
 </script>
