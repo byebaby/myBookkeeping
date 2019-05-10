@@ -7,6 +7,7 @@ import com.example.demo.vo.Json;
 import io.micrometer.core.instrument.util.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresGuest;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.SimpleHash;
@@ -104,10 +105,10 @@ public class LoginController {
         return userService.findUserByName(currentUser.getPrincipal().toString());
     }
 
-    @RequiresGuest
+    @RequiresAuthentication
     @ResponseBody
     @GetMapping("/hello1")
     public User demo1() {
-        return userService.findUserByName("1111");
+        return userService.findUserByName(SecurityUtils.getSubject().getPrincipal().toString());
     }
 }
