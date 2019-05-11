@@ -28,15 +28,12 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(UnauthenticatedException.class)
-//    @ResponseBody
     public Object page401(UnauthenticatedException e) {
         String eMsg = e.getMessage();
         if (StringUtils.startsWithIgnoreCase(eMsg, GUEST_ONLY)) {
             return new Json("401", false, Codes.UNAUTHEN, "只允许游客访问，若您已登录，请先退出登录", null)
                     .data("detail", e.getMessage());
         } else {
-//            return new Json("401", false, Codes.UNAUTHEN, "用户未登录", null)
-//                    .data("detail", e.getMessage());
             return "login";
         }
     }
@@ -46,5 +43,6 @@ public class GlobalExceptionHandler {
     public Json page403() {
         return new Json("403", false, Codes.UNAUTHZ, "用户没有访问权限", null);
     }
+
 
 }

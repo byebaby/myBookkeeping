@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<head>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" style="height: 100%">
+<head >
     <div th:replace="include/_css :: commonHead"></div>
 </head>
-<body>
-<div class="login-main">
+<body style="height: 100%">
+<div class="login-main"  style="z-index: 1">
     <header class="layui-elip">登录</header>
     <form class="layui-form">
         <div class="layui-input-inline">
@@ -24,8 +24,9 @@
     </form>
 </div>
 <script src="/static/layui/layui.js"></script>
+<script type="text/javascript" src="/static/js/canvas-nest.js"></script>
 <script type="text/javascript">
-    layui.use(['form', 'layer'], function () {
+    layui.use(['form', 'layer', 'jquery'], function () {
         // 操作对象
         var form = layui.form
             , layer = layui.layer
@@ -36,10 +37,17 @@
             $.ajax({
                 type: 'POST',
                 url: 'login',
-                data: $.param(data.field)
-                // success: function (data) {
-                //     window.location.href = "/";
-                // }
+                data: $.param(data.field),
+                success: function (data) {
+                    if (data.code == 1) {
+                        layer.msg(data.msg, {icon: 1, time: 1000, offset: 't'}, function () {
+                            window.location.href = data.url;
+                        });
+                    } else {
+                        layer.msg("登录失败，请检查用户名或密码", {icon: 5});
+                    }
+
+                }
             });
 
             return false;

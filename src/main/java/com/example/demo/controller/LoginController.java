@@ -7,8 +7,6 @@ import com.example.demo.vo.Json;
 import io.micrometer.core.instrument.util.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.authz.annotation.RequiresAuthentication;
-import org.apache.shiro.authz.annotation.RequiresGuest;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.subject.Subject;
@@ -94,21 +92,22 @@ public class LoginController {
         return "login";
     }
 
-    @ResponseBody
     @PostMapping("/login")
-    public User postLogin(String username, String password) {
+    @ResponseBody
+    public Json postLogin(String username, String password) {
 
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
         Subject currentUser = SecurityUtils.getSubject();
         currentUser.login(token);
-        System.out.print(currentUser.getPrincipal().toString());
-        return userService.findUserByName(currentUser.getPrincipal().toString());
+        return Json.succ("login", "登录成功").data("url", "home");
     }
 
-    @RequiresAuthentication
+    @GetMapping("/logout")
     @ResponseBody
-    @GetMapping("/hello1")
-    public User demo1() {
-        return userService.findUserByName(SecurityUtils.getSubject().getPrincipal().toString());
+    public Json logout() {
+        Subject currentUser = SecurityUtils.getSubject();
+        currentUser.logout();
+        return Json.succ("logout", "退出成功");
     }
+
 }
