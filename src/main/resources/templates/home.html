@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="include/_css :: commonHead"></div>
+</head>
+<body>
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">layui 后台布局</div>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+        <ul class="layui-nav layui-layout-left">
+            <li class="layui-nav-item"><a href="">控制台</a></li>
+            <li class="layui-nav-item"><a href="">商品管理</a></li>
+            <li class="layui-nav-item"><a href="">用户</a></li>
+            <li class="layui-nav-item">
+                <a href="javascript:;">其它系统</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">邮件管理</a></dd>
+                    <dd><a href="">消息管理</a></dd>
+                    <dd><a href="">授权管理</a></dd>
+                </dl>
+            </li>
+        </ul>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <span th:text="${user}">
+                    User
+                </span>
+                <dl class="layui-nav-child">
+                    <dd><a href="">基本资料</a></dd>
+                    <dd><a href="">安全设置</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item"><a id="logout">退出</a></li>
+        </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                <div th:replace="this :: menus(${menus})"></div>
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:;">所有商品</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;">列表一</a></dd>
+                        <dd><a href="javascript:;">列表二</a></dd>
+                        <dd><a href="javascript:;">列表三</a></dd>
+                        <dd><a href="">超链接</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">解决方案</a>
+                    <dl class="layui-nav-child">
+                <li class="layui-nav-item ">
+                    <a class="" href="javascript:;">所有商品</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;">列表一</a></dd>
+                        <dd><a href="javascript:;">列表二</a></dd>
+                        <dd><a href="javascript:;">列表三</a></dd>
+                        <dd><a href="">超链接</a></dd>
+                    </dl>
+                </li>
+                <dd><a href="javascript:;">列表二</a></dd>
+                <dd><a href="">超链接</a></dd>
+                <li class="layui-nav-item"><a href="">云市场</a></li>
+                <li class="layui-nav-item"><a href="">发布商品</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+        <div style="padding: 15px;">内容主体区域</div>
+    </div>
+
+    <div class="layui-footer">
+        <!-- 底部固定区域 -->
+        © layui.com - 底部固定区域
+    </div>
+</div>
+
+<th:block th:fragment="menus (menu1)">
+    <th:block th:each="menu,iterStat : ${menu1} ">
+        <th:block th:if="${not #lists.isEmpty(menu.childMenuPath)}">
+            <li class=" layui-nav-item">
+                <a class="" href="javascript:;" th:text="${menu.name}"></a>
+                <dl class="layui-nav-child">
+                    <div th:replace="this :: menus (${menu.childMenuPath})"></div>
+                </dl>
+            </li>
+        </th:block>
+        <th:block th:if="${#lists.isEmpty(menu.childMenuPath)}">
+<!--            <p th:text="${#strings.length(menu.path)}"></p>-->
+            <th:bolck th:if="${#strings.length(menu.path)- #strings.length(#strings.replace(menu.path,'/',''))==1}">
+                <li class=" layui-nav-item">
+                    <a class="" href="javascript:;" th:text="${menu.name}" th:href="${menu.path}"></a>
+                </li>
+            </th:bolck>
+            <th:bolck th:if="${#strings.length(menu.path)- #strings.length(#strings.replace(menu.path,'/',''))>1}">
+                <dd><a href="javascript:;" th:text="${menu.name}" th:href="${menu.path}"></a></dd>
+            </th:bolck>
+
+        </th:block>
+    </th:block>
+</th:block>
+<script src="/static/layui/layui.js"></script>
+<script type="text/javascript">
+    layui.use(['form', 'jquery', 'layer', 'element'], function () {
+        var form = layui.form;
+        var $ = layui.jquery;
+        var layer = layui.layer;
+        var element = layui.element;
+        $("#logout").click(function () {
+            $.ajax({
+                type: 'GET',
+                url: 'logout',
+                success: function (data) {
+                    if (data.code == 1) {
+                        window.location.reload();
+                    } else {
+                        layer.msg("退出失败，请联系管理员", {icon: 5});
+                    }
+
+                }
+            })
+        })
+    });
+</script>
+</body>
+</html>
