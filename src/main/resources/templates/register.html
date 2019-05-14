@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" style="height: 100%">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" style="height: 100%">
 <head>
-    <div th:replace="include/_css :: commonHead"></div>
+    <div th:replace="include/header :: commonHead"></div>
 </head>
 
 <body style="height: 100%">
@@ -137,7 +137,7 @@
             }
             var flag = true;
             $.ajax({
-                url: 'checkname',
+                url: '/checkname',
                 type: 'post',
                 dataType: 'text',
                 data: {username: user},
@@ -167,7 +167,7 @@
                 return false;
             }
             $.ajax({
-                url: 'register',
+                url: '/register',
                 type: 'post',
                 data: {
                     username: $('#user').val(),

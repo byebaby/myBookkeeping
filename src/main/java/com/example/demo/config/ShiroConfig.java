@@ -1,6 +1,7 @@
 package com.example.demo.config;
 
 import com.zaxxer.hikari.HikariDataSource;
+import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.cache.MemoryConstrainedCacheManager;
@@ -21,6 +22,7 @@ public class ShiroConfig {
     @Bean
     @ConfigurationProperties("spring.datasource")
     public HikariDataSource hikariDataSource() {
+
         return DataSourceBuilder.create().type(HikariDataSource.class).build();
     }
 

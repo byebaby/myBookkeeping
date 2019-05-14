@@ -37,6 +37,7 @@ public class LoginController {
     @ResponseBody
     @PostMapping("/checkname")
     public Json checkName(String username) {
+
         if (userService.findUserByName(username) != null) {
             return Json.succ("checkname", "该用户名已被占用!").code(Json.DEFAULT_FAIL_CODE);
         } else {

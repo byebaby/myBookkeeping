@@ -9,6 +9,7 @@ public class AccountingDetail {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private int pid;
+    private String type;
     private String message;
     private int amount;
 
@@ -18,6 +19,14 @@ public class AccountingDetail {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public int getPid() {

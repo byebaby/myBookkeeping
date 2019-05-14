@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <div th:replace="include/header :: commonHead"></div>
+</head>
+<body>
+<table id="table" lay-filter="test"></table>
+
+<script src="/static/layui/layui.js"></script>
+<script th:inline="none">
+    layui.use(['form', 'jquery', 'layer', 'table'], function () {
+        var form = layui.form;
+        var $ = layui.jquery;
+        var layer = layui.layer;
+        var table = layui.table;
+        table.render({
+            elem: '#table'
+            , height: 312
+            , url: '/account/accountingViewData' //数据接口
+            , page: true //开启分页
+            , cols: [[ //表头
+                {field: 'username', title: '用户名'}
+                , {field: 'create_date', title: '创建时间', sort: true}
+                , {field: 'assets', title: '资产', sort: true}
+                , {field: 'dept', title: '负债', sort: true}
+                , {field: 'accounting_view', title: '净资产', sort: true}
+
+            ]]
+        });
+    });
+</script>
+</body>
+</html>
