@@ -99,7 +99,7 @@ public class LoginController {
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
         Subject currentUser = SecurityUtils.getSubject();
         currentUser.login(token);
-        return Json.succ("login", "登录成功").data("url", "home");
+        return Json.succ("login", "登录成功").data("url", "/home");
     }
 
     @GetMapping("/logout")

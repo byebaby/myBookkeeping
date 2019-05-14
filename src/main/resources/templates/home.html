@@ -40,38 +40,16 @@
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree" lay-filter="test">
                 <div th:replace="this :: menus(${menus})"></div>
-                <li class="layui-nav-item layui-nav-itemed">
-                    <a class="" href="javascript:;">所有商品</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="javascript:;">列表一</a></dd>
-                        <dd><a href="javascript:;">列表二</a></dd>
-                        <dd><a href="javascript:;">列表三</a></dd>
-                        <dd><a href="">超链接</a></dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item">
-                    <a href="javascript:;">解决方案</a>
-                    <dl class="layui-nav-child">
-                <li class="layui-nav-item ">
-                    <a class="" href="javascript:;">所有商品</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="javascript:;">列表一</a></dd>
-                        <dd><a href="javascript:;">列表二</a></dd>
-                        <dd><a href="javascript:;">列表三</a></dd>
-                        <dd><a href="">超链接</a></dd>
-                    </dl>
-                </li>
-                <dd><a href="javascript:;">列表二</a></dd>
-                <dd><a href="">超链接</a></dd>
-                <li class="layui-nav-item"><a href="">云市场</a></li>
-                <li class="layui-nav-item"><a href="">发布商品</a></li>
             </ul>
         </div>
     </div>
 
     <div class="layui-body">
         <!-- 内容主体区域 -->
-        <div style="padding: 15px;">内容主体区域</div>
+        <div class="layui-tab" lay-filter="demo" lay-allowclose="true">
+            <ul class="layui-tab-title"></ul>
+            <div class="layui-tab-content"></div>
+        </div>
     </div>
 
     <div class="layui-footer">
@@ -91,7 +69,6 @@
             </li>
         </th:block>
         <th:block th:if="${#lists.isEmpty(menu.childMenuPath)}">
-<!--            <p th:text="${#strings.length(menu.path)}"></p>-->
             <th:bolck th:if="${#strings.length(menu.path)- #strings.length(#strings.replace(menu.path,'/',''))==1}">
                 <li class=" layui-nav-item">
                     <a class="" href="javascript:;" th:text="${menu.name}" th:href="${menu.path}"></a>
@@ -124,7 +101,13 @@
 
                 }
             })
-        })
+        });
+        element.tabAdd('demo', {
+            title: '选项卡的标题'
+            , content: 'https://www.baidu.com/' //支持传入html
+            , id: '选项卡标题的lay-id属性值'
+        });
+
     });
 </script>
 </body>

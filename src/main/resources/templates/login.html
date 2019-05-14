@@ -36,7 +36,7 @@
         form.on('submit(login)', function (data) {
             $.ajax({
                 type: 'POST',
-                url: 'login',
+                url: '/login',
                 data: $.param(data.field),
                 success: function (data) {
                     if (data.code == 1) {
