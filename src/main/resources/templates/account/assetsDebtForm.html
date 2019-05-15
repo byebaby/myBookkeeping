@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <div th:replace="include/header :: commonHead"></div>
+</head>
+<body>
+<div class="layui-form" style="margin: 10px">
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">创建日期</label>
+            <span class="layui-badge">必填</span>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" id="laydate" placeholder="yyyy-MM-dd" lay-verify="required|date">
+            </div>
+
+        </div>
+    </div>
+</div>
+<table class="layui-hide" id="table"></table>
+
+<script src="/static/layui/layui.js"></script>
+<script th:inline="none">
+    layui.use(['form', 'jquery', 'layer', 'table', 'laydate'], function () {
+        var form = layui.form;
+        var $ = layui.jquery;
+        var layer = layui.layer;
+        var table = layui.table;
+        var laydate = layui.laydate;
+        table.render({
+            elem: '#table'
+            , url: '/demo/table/user/'
+            , cols: [[
+                {type: 'checkbox'}
+                , {field: 'type', title: '类型'}
+                , {field: 'message', title: '签名'}
+                , {field: 'amount', title: '金额'}
+            ]],
+            response: {
+                statusName: 'code' //规定数据状态的字段名称，默认：code
+                , statusCode: 1 //规定成功的状态码，默认：0
+            }
+        });
+        laydate.render({
+            elem: '#laydate' //指定元素
+        });
+    });
+</script>
+</body>
+</html>

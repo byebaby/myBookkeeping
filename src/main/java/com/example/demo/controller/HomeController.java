@@ -16,7 +16,6 @@ public class HomeController {
         this.menuPathService = menuPathService;
     }
 
-    @RequiresAuthentication
     @GetMapping("/home")
     public String home(ModelMap map) {
         map.addAttribute("user", SecurityUtils.getSubject().getPrincipal());

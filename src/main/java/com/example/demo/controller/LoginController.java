@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.User;
-import com.example.demo.service.UserRoleService;
 import com.example.demo.service.UserService;
 import com.example.demo.vo.Json;
 import io.micrometer.core.instrument.util.StringUtils;
@@ -26,12 +25,10 @@ import java.util.regex.Pattern;
 public class LoginController {
 
     private final UserService userService;
-    private final UserRoleService userRoleService;
 
     @Autowired
-    public LoginController(UserService userService, UserRoleService userRoleService) {
+    public LoginController(UserService userService) {
         this.userService = userService;
-        this.userRoleService = userRoleService;
     }
 
     @ResponseBody

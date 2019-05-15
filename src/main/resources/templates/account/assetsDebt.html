@@ -1,12 +1,21 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en" style="height: 100%">
 <head>
     <div th:replace="include/header :: commonHead"></div>
 </head>
 <body>
-<table id="table" lay-filter="test"></table>
+<div>
+    <table class="layui-hide" id="table" lay-filter="table"></table>
+</div>
 
 <script src="/static/layui/layui.js"></script>
+<script type="text/html" id="toolbar">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="add">新增</button>
+        <button class="layui-btn layui-btn-sm" lay-event="update">更新</button>
+        <button class="layui-btn layui-btn-sm" lay-event="delete">删除</button>
+    </div>
+</script>
 <script th:inline="none">
     layui.use(['form', 'jquery', 'layer', 'table'], function () {
         var form = layui.form;
@@ -15,17 +24,43 @@
         var table = layui.table;
         table.render({
             elem: '#table'
-            , height: 312
             , url: '/account/accountingViewData' //数据接口
+            , toolbar: '#toolbar'
             , page: true //开启分页
             , cols: [[ //表头
                 {field: 'username', title: '用户名'}
-                , {field: 'create_date', title: '创建时间', sort: true}
+                , {field: 'createDate', title: '创建日期', sort: true}
                 , {field: 'assets', title: '资产', sort: true}
-                , {field: 'dept', title: '负债', sort: true}
-                , {field: 'accounting_view', title: '净资产', sort: true}
+                , {field: 'debt', title: '负债', sort: true}
+                , {field: 'netAssets', title: '净资产', sort: true}
 
-            ]]
+            ]],
+            response: {
+                statusName: 'code' //规定数据状态的字段名称，默认：code
+                , statusCode: 1 //规定成功的状态码，默认：0
+            }
+        });
+        table.on('toolbar(table)', function (obj) {
+            var checkStatus = table.checkStatus(obj.config.id);
+            switch (obj.event) {
+                case 'add':
+                    layer.open({
+                        type: 2,
+                        title: '新增明细数据',
+                        shadeClose: false,
+                        maxmin: true, //开启最大化最小化按钮
+                        area: ['893px', '600px'],
+                        content: '/account/assetsDebtForm'
+                    });
+                    break;
+                case 'update':
+                    var data = checkStatus.data;
+                    layer.msg('选中了：' + data.length + ' 个');
+                    break;
+                case 'delete':
+                    layer.msg(checkStatus.isAll ? '全选' : '未全选');
+                    break;
+            }
         });
     });
 </script>

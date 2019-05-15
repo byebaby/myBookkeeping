@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <div th:replace="include/header :: commonHead"></div>
+</head>
+<body>
+<table class="layui-hide" id="table" lay-filter="table"></table>
+<script src="/static/layui/layui.js"></script>
+<script type="text/html" id="toolbar">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="add">添加</button>
+        <button class="layui-btn layui-btn-sm" lay-event="delete">删除</button>
+    </div>
+</script>
+<script th:inline="none">
+    layui.use(['form', 'jquery', 'layer', 'table'], function () {
+        var $ = layui.jquery;
+        var layer = layui.layer;
+        var table = layui.table;
+        var laydate = layui.laydate;
+        table.render({
+            elem: '#table'
+            , toolbar: '#toolbar'
+            , url: '/account/ModelTipsData'
+            , cols: [[
+                {type: 'checkbox'}
+                , {field: 'id', hide: true}
+                , {field: 'type', title: '类型', edit: 'text'}
+                , {field: 'message', title: '签名', edit: 'text'}
+            ]],
+            response: {
+                statusName: 'code' //规定数据状态的字段名称，默认：code
+                , statusCode: 1 //规定成功的状态码，默认：0
+            }
+        });
+        table.reload("table", {
+            data: [{id: '21', type: '1112', message: '2121'}]
+        });
+        table.on('toolbar(table)', function (obj) {
+            var checkStatus = table.checkStatus(obj.config.id);
+            switch (obj.event) {
+                case 'add':
+                    var data = table.cache.table;
+                    data.push({id: '21', type: '1112', message: '2121'});
+                    table.reload("table", {
+                        data: [{id: '21', type: '1112', message: '2121'}]
+                    });
+                    break;
+                case 'delete':
+                    layer.msg('删除');
+                    break;
+                case 'update':
+                    layer.msg('编辑');
+                    break;
+            }
+        });
+    });
+</script>
+</body>
+</html>

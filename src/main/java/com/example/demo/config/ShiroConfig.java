@@ -52,8 +52,11 @@ public class ShiroConfig {
     @Bean
     public ShiroFilterChainDefinition shiroFilterChainDefinition() {
         DefaultShiroFilterChainDefinition chainDefinition = new DefaultShiroFilterChainDefinition();
-        chainDefinition.addPathDefinition("/**", "anon"); // all paths are managed via annotations
-
+        chainDefinition.addPathDefinition("/checkname", "anon"); // all paths are managed via annotations
+        chainDefinition.addPathDefinition("/register", "anon");
+        chainDefinition.addPathDefinition("/login", "anon");
+        chainDefinition.addPathDefinition("/static/**", "anon");
+        chainDefinition.addPathDefinition("/**", "authc");
         // or allow basic authentication, but NOT require it.
         // chainDefinition.addPathDefinition("/**", "authcBasic[permissive]");
         return chainDefinition;
