@@ -35,24 +35,24 @@
     <div class="layui-btn-container">
         <button class="layui-btn layui-btn-sm" lay-event="add">添加</button>
         <button class="layui-btn layui-btn-sm" lay-event="delete">删除</button>
+        <button class="layui-btn layui-btn-sm" lay-event="save">保存</button>
     </div>
 </script>
-<script type="text/html" id="typeTp1"  >
-    <select name="type" lay-verify="required"  lay-filter="select" >
+<script type="text/html" id="typeTp1">
+    <select name="type" lay-verify="required" lay-filter="select">
         <option value=""></option>
-        <option value="资产" [({{# if(d.type=="资产" ){ }} selected {{#  } }})] >资产</option>
-        <option value="负债"  [({{# if(d.type=="负债") { }} selected {{#  } }})]>负债</option>
-        <option value="净资产"  [({{# if(d.type=="净资产") { }} selected {{#  } }})]>净资产</option>
+        <option value="资产" [({{# if(d.type=="资产" ){ }} selected {{# } }})]>资产</option>
+        <option value="负债" [({{# if(d.type=="负债") { }} selected {{# } }})]>负债</option>
     </select>
 </script>
 
-<script th:inline="none" >
-    layui.use(['jquery', 'layer', 'table', 'form'], function () {
+<script th:inline="none">
+    layui.use(['jquery', 'layer', 'table', 'form', 'laytpl'], function () {
         var $ = layui.jquery;
         var layer = layui.layer;
         var table = layui.table;
         var form = layui.form;
-
+        var laytpl = layui.laytpl;
         $.ajax({
             url: '/account/ModelTipsData',
             success: function (object) {
@@ -60,11 +60,11 @@
                 table.render({
                     elem: '#table'
                     , size: 'lg '
+                    , limit: Number.MAX_VALUE
                     , initSort: {
-                        field: 'id' //排序字段，对应 cols 设定的各字段名
-                        , type: 'asc' //排序方式  asc: 升序、desc: 降序、null: 默认排序
-                    },
-                    limit: Number.MAX_VALUE
+                        field: 'type' //排序字段，对应 cols 设定的各字段名
+                        , type: 'desc' //排序方式  asc: 升序、desc: 降序、null: 默认排序
+                    }
                     , text: {
                         none: '暂无相关数据' //默认：无数据。注：该属性为 layui 2.2.5 开始新增
                     }
@@ -73,7 +73,7 @@
                     , cols: [[
                         {type: 'checkbox'}
                         , {field: 'id', hide: true}
-                        , {field: 'type', title: '类型', templet: '#typeTp1'}
+                        , {field: 'type', title: '类型', templet: '#typeTp1', sort: true}
                         , {field: 'message', title: '签名', edit: 'text'}
                     ]]
                 });
@@ -93,23 +93,68 @@
                     console.log(checkStatus.data);
                     layer.confirm('真的删除行么', function (index) {
                         var trObjs = getChecked(obj);
-                        layui.each(trObjs, function (index, trObj) {
-                            trObj.del();
+                        $.ajax({
+                            url: '/account/ModelTipsDataDelete',
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            data: JSON.stringify(checkStatus.data),
+                            type: 'post',
+                            success: function (object) {
+                                if (object.code == 1) {
+                                    layui.each(trObjs, function (index, trObj) {
+                                        trObj.del();
+                                    });
+                                    for (var i = 0; i < table.cache.table.length; i++) {
+                                        if (table.cache.table[i] == null) {
+                                            table.cache.table.splice(i, 1);
+                                            i = i - 1; // i - 1 ,因为空元素在数组下标 2 位置，删除空之后，后面的元素要向前补位，
+                                                       // 这样才能真正去掉空元素,觉得这句可以删掉的连续为空试试，然后思考其中逻辑
+                                        }
+                                    }
+                                } else {
+                                    layer.msg("删除失败" + object.message);
+                                }
+
+                            }
                         });
                         layer.close(index);
                     });
                     break;
+                case 'save':
+                    var flag = true;
+                    $(table.cache.table).each(function () {
+                        if ($(this).attr("type") == '' || $(this).attr("message") == '') {
+                            layer.msg('数据未填写完整,请检查');
+                            flag = false;
+                            return false;
+                        }
+                    });
+                    if (flag) {
+                        $.ajax({
+                            url: '/account/ModelTipsData',
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            data: JSON.stringify(table.cache.table),
+                            type: 'post',
+                            success: function (object) {
+                                if (object.code == 1) {
+                                    layer.msg("保存成功");
+                                    table.reload("table", {
+                                        data: object.data
+                                    });
+                                } else {
+                                    layer.msg("保存失败" + object.message);
+                                }
+                            }
+                        });
+                    }
             }
         });
-        table.on('edit(tableFilter)', function(obj){ //注：edit是固定事件名，test是table原始容器的属性 lay-filter="对应的值"
-            console.log(obj);
+
+        form.on('select(select)', function () {
+            table.cache.table[$(this).parents('tr').attr("data-index")]["type"] = $(this).parents('tr').context.textContent;
         });
-        form.on('select(select)', function(data){
-            console.log($(this).parent('tr'));
-            console.log(this);
-            console.log(data);
-            console.log(table.cache)
-        });
+
         //获取所有选中行对象 obj=头工具栏对象
         function getChecked(obj) {
             obj.trObjs = [];
@@ -133,8 +178,9 @@
                 tr: tr //行元素
                 , data: table.clearCacheKey(data) //当前行数据
                 , del: function () { //删除行数据
-                    table.cache[that.key][index] = [];
+                    table.cache[that.key][index] = null;
                     tr.remove();
+
                 }
                 , update: function (fields) { //修改行数据
                     fields = fields || {};

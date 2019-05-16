@@ -3,6 +3,7 @@ package com.example.demo.service.impl;
 import com.example.demo.dao.AccountingTipsDao;
 import com.example.demo.entity.AccountingTips;
 import com.example.demo.service.AccountingTipsService;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,5 +22,19 @@ public class AccountingTipsServiceImpl implements AccountingTipsService {
     @Override
     public List<AccountingTips> findByUsername(String username) {
         return accountingTipsDao.findByuserName(username);
+    }
+
+    @Override
+    public List<AccountingTips> save(List<AccountingTips> tips) {
+        for (AccountingTips accountingTips : tips) {
+            accountingTips.setUserName(SecurityUtils.getSubject().getPrincipal().toString());
+        }
+        return accountingTipsDao.saveAll(tips);
+    }
+
+    @Override
+    public void del(List<AccountingTips> tips) {
+        tips.removeIf(x -> x.getId() == 0);
+        accountingTipsDao.deleteAll(tips);
     }
 }
