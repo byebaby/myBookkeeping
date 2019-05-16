@@ -2,58 +2,165 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <div th:replace="include/header :: commonHead"></div>
+
+    <style>
+        .layui-input {
+            height: 39px;
+        }
+
+        .layui-table-cell {
+            overflow: initial;
+        }
+
+        .layui-table-box {
+            overflow: visible;
+        }
+
+        .layui-table-body {
+            overflow: visible;
+        }
+
+        /* 设置下拉框的高度与表格单元相同 */
+        td .layui-form-select {
+            margin-top: -10px;
+            margin-left: -15px;
+            margin-right: -15px;
+        }
+    </style>
 </head>
 <body>
-<table class="layui-hide" id="table" lay-filter="table"></table>
-<script src="/static/layui/layui.js"></script>
+<table class="layui-hide" id="table" lay-filter="tableFilter"></table>
+<script src="/static/layui/layui.js" charset="utf-8"></script>
 <script type="text/html" id="toolbar">
     <div class="layui-btn-container">
         <button class="layui-btn layui-btn-sm" lay-event="add">添加</button>
         <button class="layui-btn layui-btn-sm" lay-event="delete">删除</button>
     </div>
 </script>
-<script th:inline="none">
-    layui.use(['form', 'jquery', 'layer', 'table'], function () {
+<script type="text/html" id="typeTp1"  >
+    <select name="type" lay-verify="required"  lay-filter="select" >
+        <option value=""></option>
+        <option value="资产" [({{# if(d.type=="资产" ){ }} selected {{#  } }})] >资产</option>
+        <option value="负债"  [({{# if(d.type=="负债") { }} selected {{#  } }})]>负债</option>
+        <option value="净资产"  [({{# if(d.type=="净资产") { }} selected {{#  } }})]>净资产</option>
+    </select>
+</script>
+
+<script th:inline="none" >
+    layui.use(['jquery', 'layer', 'table', 'form'], function () {
         var $ = layui.jquery;
         var layer = layui.layer;
         var table = layui.table;
-        var laydate = layui.laydate;
-        table.render({
-            elem: '#table'
-            , toolbar: '#toolbar'
-            , url: '/account/ModelTipsData'
-            , cols: [[
-                {type: 'checkbox'}
-                , {field: 'id', hide: true}
-                , {field: 'type', title: '类型', edit: 'text'}
-                , {field: 'message', title: '签名', edit: 'text'}
-            ]],
-            response: {
-                statusName: 'code' //规定数据状态的字段名称，默认：code
-                , statusCode: 1 //规定成功的状态码，默认：0
+        var form = layui.form;
+
+        $.ajax({
+            url: '/account/ModelTipsData',
+            success: function (object) {
+                var data = object.data;
+                table.render({
+                    elem: '#table'
+                    , size: 'lg '
+                    , initSort: {
+                        field: 'id' //排序字段，对应 cols 设定的各字段名
+                        , type: 'asc' //排序方式  asc: 升序、desc: 降序、null: 默认排序
+                    },
+                    limit: Number.MAX_VALUE
+                    , text: {
+                        none: '暂无相关数据' //默认：无数据。注：该属性为 layui 2.2.5 开始新增
+                    }
+                    , toolbar: '#toolbar'
+                    , data: data
+                    , cols: [[
+                        {type: 'checkbox'}
+                        , {field: 'id', hide: true}
+                        , {field: 'type', title: '类型', templet: '#typeTp1'}
+                        , {field: 'message', title: '签名', edit: 'text'}
+                    ]]
+                });
             }
         });
-        table.reload("table", {
-            data: [{id: '21', type: '1112', message: '2121'}]
-        });
-        table.on('toolbar(table)', function (obj) {
+        table.on('toolbar(tableFilter)', function (obj) {
             var checkStatus = table.checkStatus(obj.config.id);
             switch (obj.event) {
                 case 'add':
-                    var data = table.cache.table;
-                    data.push({id: '21', type: '1112', message: '2121'});
+                    var data = layui.table.cache.table;
+                    data.push({id: '', type: '', message: ''});
                     table.reload("table", {
-                        data: [{id: '21', type: '1112', message: '2121'}]
+                        data: data
                     });
                     break;
                 case 'delete':
-                    layer.msg('删除');
-                    break;
-                case 'update':
-                    layer.msg('编辑');
+                    console.log(checkStatus.data);
+                    layer.confirm('真的删除行么', function (index) {
+                        var trObjs = getChecked(obj);
+                        layui.each(trObjs, function (index, trObj) {
+                            trObj.del();
+                        });
+                        layer.close(index);
+                    });
                     break;
             }
         });
+        table.on('edit(tableFilter)', function(obj){ //注：edit是固定事件名，test是table原始容器的属性 lay-filter="对应的值"
+            console.log(obj);
+        });
+        form.on('select(select)', function(data){
+            console.log($(this).parent('tr'));
+            console.log(this);
+            console.log(data);
+            console.log(table.cache)
+        });
+        //获取所有选中行对象 obj=头工具栏对象
+        function getChecked(obj) {
+            obj.trObjs = [];
+            var that = {};
+            that.elem = obj.config.elem.next();
+            that.layBody = that.elem.find('.layui-table-body');
+            that.key = obj.config.id;
+            that.layBody.find('.layui-form-checked').each(function () {
+                obj.trObjs.push(commonMember(that, $(this)));
+            });
+            return obj.trObjs;
+        }
+
+        //数据行中的事件监听返回的公共对象成员
+        var commonMember = function (that, othis, sets) {
+            var ELEM_CELL = '.layui-table-cell';
+            var index = othis.parents('tr').eq(0).data('index')
+                , tr = that.layBody.find('tr[data-index="' + index + '"]')
+                , data = table.cache[that.key][index];
+            return $.extend({
+                tr: tr //行元素
+                , data: table.clearCacheKey(data) //当前行数据
+                , del: function () { //删除行数据
+                    table.cache[that.key][index] = [];
+                    tr.remove();
+                }
+                , update: function (fields) { //修改行数据
+                    fields = fields || {};
+                    layui.each(fields, function (key, value) {
+                        if (key in data) {
+                            var templet, td = tr.children('td[data-field="' + key + '"]');
+                            data[key] = value;
+                            table.eachCols(function (i, item2) {
+                                if (item2.field == key && item2.templet) {
+                                    templet = item2.templet;
+                                }
+                            });
+                            td.children(ELEM_CELL).html(function () {
+                                return templet ? function () {
+                                    return typeof templet === 'function'
+                                        ? templet(data)
+                                        : laytpl($(templet).html() || value).render(data)
+                                }() : value;
+                            }());
+                            td.data('content', value);
+                        }
+                    });
+                }
+            }, sets);
+        };
+
     });
 </script>
 </body>

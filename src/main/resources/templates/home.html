@@ -49,7 +49,7 @@
         <th:block th:if="${not #lists.isEmpty(menu.childMenuPath)}">
             <li class=" layui-nav-item">
                 <a class="" href="javascript:;" th:text="${menu.name}"></a>
-                <dl class="layui-nav-child">
+                <dl class="layui-nav-child layui-tab-item">
                     <div th:replace="this :: menus (${menu.childMenuPath})"></div>
                 </dl>
             </li>
