@@ -9,7 +9,7 @@ public class Accounting {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private int userId;
+    private Long userId;
     private LocalDate createDate;
 
     public int getId() {
@@ -20,11 +20,11 @@ public class Accounting {
         this.id = id;
     }
 
-    public int getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 

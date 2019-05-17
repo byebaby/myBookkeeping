@@ -9,12 +9,21 @@ import java.time.LocalDate;
 @Table
 public class AccountingView {
     @Id
+    private int id;
     private int userId;
     private String username;
     private LocalDate createDate;
     private int assets;
     private int debt;
     private int netAssets;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public int getUserId() {
         return userId;

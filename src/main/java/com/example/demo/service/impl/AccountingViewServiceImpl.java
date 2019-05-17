@@ -19,6 +19,6 @@ public class AccountingViewServiceImpl implements AccountingViewService {
 
     @Override
     public List<AccountingView> findViewDataByUserName(String userName) {
-        return accountingViewDao.findViewDataByUserName(userName);
+        return accountingViewDao.findByusername(userName);
     }
 }

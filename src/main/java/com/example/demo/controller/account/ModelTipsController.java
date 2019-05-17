@@ -45,7 +45,7 @@ public class ModelTipsController {
 
     @PostMapping("/account/ModelTipsDataDelete")
     @ResponseBody
-    public Json deleteModelTipsData(@RequestBody List<AccountingTips> tips) {
+    public Json deleteModelTipsData( @RequestBody List<AccountingTips> tips) {
 
         accountingTipsService.del(tips);
         return Json.succ("deleteData");

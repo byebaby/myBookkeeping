@@ -4,18 +4,21 @@
     <div th:replace="include/header :: commonHead"></div>
 </head>
 <body>
-<div class="layui-form" style="margin: 10px">
+<form class="layui-form" style="margin: 10px">
     <div class="layui-form-item">
-        <div class="layui-inline">
-            <label class="layui-form-label">创建日期</label>
-            <span class="layui-badge">必填</span>
-            <div class="layui-input-inline">
-                <input type="text" class="layui-input" id="laydate" placeholder="yyyy-MM-dd" lay-verify="required|date">
-            </div>
+        <div class="layui-input-inline">
 
+            <input type="text" name="date" class="layui-input" id="laydate" placeholder="创建日期"
+                   lay-verify="required|date" style="float: left">
+        </div>
+
+        <div class="layui-input-inline">
+            <span class="layui-badge" style=" float: left">必填</span>
+            <button class="layui-btn" lay-submit lay-filter="form" style="float: right">立即提交</button>
         </div>
     </div>
-</div>
+
+</form>
 <table class="layui-hide" id="table"></table>
 
 <script src="/static/layui/layui.js"></script>
@@ -28,12 +31,16 @@
         var laydate = layui.laydate;
         table.render({
             elem: '#table'
-            , url: '/demo/table/user/'
+            , url: '/account/ModelTipsData'
+            , initSort: {
+                field: 'type' //排序字段，对应 cols 设定的各字段名
+                , type: 'desc' //排序方式  asc: 升序、desc: 降序、null: 默认排序
+            }
             , cols: [[
                 {type: 'checkbox'}
-                , {field: 'type', title: '类型'}
+                , {field: 'type', title: '类型', sort: true}
                 , {field: 'message', title: '签名'}
-                , {field: 'amount', title: '金额'}
+                , {field: 'amount', title: '金额', edit: 'text'}
             ]],
             response: {
                 statusName: 'code' //规定数据状态的字段名称，默认：code
@@ -42,6 +49,27 @@
         });
         laydate.render({
             elem: '#laydate' //指定元素
+        });
+        //监听提交
+        form.on('submit(form)', function (data) {
+            $.ajax({
+                url: '/account/assetsDebtForm' + "?date=" + data.field.date,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify(table.cache.table),
+                type: 'post',
+                success: function (object) {
+                    if (object.code == 1) {
+                        layer.msg("保存成功");
+                        //当你在iframe页面关闭自身时
+                        var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                        parent.layer.close(index); //再执行关闭
+                    } else {
+                        layer.msg("保存失败" + object.message);
+                    }
+                }
+            });
+            return false;
         });
     });
 </script>

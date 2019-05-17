@@ -7,6 +7,5 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface AccountingViewDao extends JpaRepository<AccountingView, Integer> {
-    @Query(value = "select * from accounting_view where username=?1", nativeQuery = true)
-    List<AccountingView> findViewDataByUserName(String username);
+    List<AccountingView> findByusername(String username);
 }
