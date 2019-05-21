@@ -4,10 +4,9 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table
 public class MenuPath {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private int id;
     private String path;
     private String name;

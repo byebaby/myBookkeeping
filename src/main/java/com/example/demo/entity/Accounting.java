@@ -1,13 +1,13 @@
 package com.example.demo.entity;
 
+
 import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@Table
 public class Accounting {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private int id;
     private Long userId;
     private LocalDate createDate;

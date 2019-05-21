@@ -3,10 +3,9 @@ package com.example.demo.entity;
 import javax.persistence.*;
 
 @Entity
-@Table
 public class AccountingDetail {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private int id;
     private int pid;
     private String type;

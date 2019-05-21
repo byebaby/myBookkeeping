@@ -1,13 +1,14 @@
 package com.example.demo.entity;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.util.Date;
 
-@Entity
-@Table(name = "users")
+@Entity(name = "users")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;       // 用户id
     private String username;   // 登录名，不可改
     private String nick;    // 用户昵称，可改

@@ -2,14 +2,13 @@ package com.example.demo.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Entity
-@Table
 public class AccountingView {
     @Id
-    private int id;
+    private UUID uuid;
     private int userId;
     private String username;
     private LocalDate createDate;
@@ -17,12 +16,13 @@ public class AccountingView {
     private int debt;
     private int netAssets;
 
-    public int getId() {
-        return id;
+
+    public UUID getUuid() {
+        return uuid;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
     }
 
     public int getUserId() {
