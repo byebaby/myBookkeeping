@@ -3,6 +3,7 @@ package com.example.demo.entity;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity(name = "roles_permissions")
 public class RolePerm extends BaseEntity {
@@ -11,6 +12,8 @@ public class RolePerm extends BaseEntity {
     private Long id;
     private String role_name;
     private String permission;
+    @ManyToOne
+    private UserRole userRole;
 
     public Long getId() {
         return id;
@@ -34,5 +37,13 @@ public class RolePerm extends BaseEntity {
 
     public void setPermission(String permission) {
         this.permission = permission;
+    }
+
+    public UserRole getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(UserRole userRole) {
+        this.userRole = userRole;
     }
 }

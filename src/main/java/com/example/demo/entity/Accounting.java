@@ -12,7 +12,7 @@ public class Accounting extends BaseEntity {
     private Long id;
     private Long userId;
     private LocalDate createDate;
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "accounting")
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "accounting",fetch = FetchType.EAGER)
     private List<AccountingDetail> accountingDetail;
 
     public Long getId() {

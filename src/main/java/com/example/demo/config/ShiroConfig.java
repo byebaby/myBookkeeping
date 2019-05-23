@@ -30,6 +30,9 @@ public class ShiroConfig {
     @Bean
     public Realm realm() {
         JdbcRealm jdbcRealm = new JdbcRealm();
+        jdbcRealm.setPermissionsLookupEnabled(true);
+        jdbcRealm.setAuthenticationQuery("select password, password_salt from user where username = ?");
+        jdbcRealm.setUserRolesQuery("select role_name from user_role where username = ?");
         jdbcRealm.setDataSource(hikariDataSource());
         jdbcRealm.setSaltStyle(JdbcRealm.SaltStyle.COLUMN);
         jdbcRealm.setCredentialsMatcher(hashedCredentialsMatcher());

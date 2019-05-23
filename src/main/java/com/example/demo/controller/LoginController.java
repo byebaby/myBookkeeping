@@ -61,7 +61,6 @@ public class LoginController {
                 !Pattern.matches(pattern4, password)) {
             return Json.succ("register", "注册失败").code(Json.DEFAULT_FAIL_CODE);
         }
-        Date date = new Date();
         User user = new User();
         user.setUsername(username);
         Map map = encryptPassword(password);

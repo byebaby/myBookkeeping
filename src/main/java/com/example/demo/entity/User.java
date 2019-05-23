@@ -1,11 +1,9 @@
 package com.example.demo.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
-@Entity(name = "users")
+@Entity
 public class User extends BaseEntity {
     @Id
     @GeneratedValue
@@ -15,6 +13,8 @@ public class User extends BaseEntity {
     private String nick;    // 用户昵称，可改
     private String password;     // 已加密的登录密码
     private String password_salt;    // 加密盐值
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL})
+    private List<UserRole> userRole;
 
     public Long getId() {
         return id;
@@ -56,4 +56,11 @@ public class User extends BaseEntity {
         this.password_salt = password_salt;
     }
 
+    public List<UserRole> getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(List<UserRole> userRole) {
+        this.userRole = userRole;
+    }
 }
