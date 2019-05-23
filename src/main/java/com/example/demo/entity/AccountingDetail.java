@@ -7,7 +7,6 @@ public class AccountingDetail {
     @Id
     @GeneratedValue
     private int id;
-    private int pid;
     private String type;
     private String message;
     private int amount;
@@ -28,14 +27,6 @@ public class AccountingDetail {
 
     public void setType(String type) {
         this.type = type;
-    }
-
-    public int getPid() {
-        return pid;
-    }
-
-    public void setPid(int pid) {
-        this.pid = pid;
     }
 
     public String getMessage() {

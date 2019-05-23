@@ -24,7 +24,7 @@ public class Generate {
         String ModelftlName = "";  //model模板名称
         String ModelfilePath = ""; //模板路径
         String ModelpackgeName = "";//模板包名
-        List<Attr> modellist = new ArrayList<Attr>(); //需要生成的实体对象集合
+        List<Attr> modellist = new ArrayList<>(); //需要生成的实体对象集合
 
         // dao参数
         String DaoftlName = ""; //dao模板名称
@@ -68,7 +68,7 @@ public class Generate {
         ModelpackgeName = modelnode.getChildNodes().item(1).getFirstChild().getNodeValue();
 
         for (String entityName : GenerateUtil.getFileList(System.getProperty("user.dir") + ModelfilePath)) {
-            Attr attr1 = new Attr(entityName,"Generate");
+            Attr attr1 = new Attr(entityName, "Generate");
             modellist.add(attr1);
         }
 //        for (int i = 0; i < params.getLength(); i++) {

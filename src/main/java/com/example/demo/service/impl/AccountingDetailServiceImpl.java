@@ -31,7 +31,7 @@ public class AccountingDetailServiceImpl implements AccountingDetailService {
         accounting.setCreateDate(date);
         accountingDao.save(accounting);
         for (AccountingDetail accountingDetail : accountingDetails) {
-            accountingDetail.setPid(accounting.getId());
+            accountingDetail.setAccounting(accounting);
         }
         return accountingDetailDao.saveAll(accountingDetails);
     }
