@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -10,6 +11,7 @@ public class User {
     @Id
     @GeneratedValue
     private Long id;       // 用户id
+    @Column(unique = true)
     private String username;   // 登录名，不可改
     private String nick;    // 用户昵称，可改
     private String password;     // 已加密的登录密码

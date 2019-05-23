@@ -10,10 +10,8 @@ import java.util.List;
 
 @Service("UserRoleService")
 public class UserRoleServiceImpl implements UserRoleService {
-    private final
-    UserRoleDao userRoleDao;
+    private final UserRoleDao userRoleDao;
 
-    @Autowired
     public UserRoleServiceImpl(UserRoleDao userRoleDao) {
         this.userRoleDao = userRoleDao;
     }

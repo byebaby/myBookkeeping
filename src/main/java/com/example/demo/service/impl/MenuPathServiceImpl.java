@@ -12,7 +12,6 @@ import java.util.List;
 public class MenuPathServiceImpl implements MenuPathService {
     private final MenuPathDao menuPathDao;
 
-    @Autowired
     public MenuPathServiceImpl(MenuPathDao menuPathDao) {
         this.menuPathDao = menuPathDao;
     }

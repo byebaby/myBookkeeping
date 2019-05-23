@@ -7,7 +7,6 @@ import com.example.demo.entity.Accounting;
 import com.example.demo.entity.AccountingDetail;
 import com.example.demo.service.AccountingDetailService;
 import org.apache.shiro.SecurityUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -19,7 +18,6 @@ public class AccountingDetailServiceImpl implements AccountingDetailService {
     private final AccountingDao accountingDao;
     private final UserDao userDao;
 
-    @Autowired
     public AccountingDetailServiceImpl(AccountingDetailDao accountingDetailDao, AccountingDao accountingDao, UserDao userDao) {
         this.accountingDetailDao = accountingDetailDao;
         this.accountingDao = accountingDao;

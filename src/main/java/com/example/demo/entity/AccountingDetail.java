@@ -11,6 +11,8 @@ public class AccountingDetail {
     private String type;
     private String message;
     private int amount;
+    @ManyToOne
+    private Accounting accounting;
 
     public int getId() {
         return id;
@@ -50,5 +52,13 @@ public class AccountingDetail {
 
     public void setAmount(int amount) {
         this.amount = amount;
+    }
+
+    public Accounting getAccounting() {
+        return accounting;
+    }
+
+    public void setAccounting(Accounting accounting) {
+        this.accounting = accounting;
     }
 }

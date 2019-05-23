@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<root>
+    <!-- 模板配置    模板文件路径和model、dao、service对应需要的模板名-->
+    <ftl path="\\src\\main\\java\\com\\example\\demo\\util\\generate">
+<!--        <param name="model">/model.ftl</param>-->
+        <param name="dao">/dao.ftl</param>
+        <param name="service">/service.ftl</param>
+    </ftl>
+
+    <!-- service.ftl需要的信息   path service包路径   packageName service中的java文件需要指定包名 -->
+    <service path="\\src\\main\\java\\com\\example\\demo\\service">
+        <packageName>com.example.demo.service</packageName>
+    </service>
+
+    <!-- dao.ftl需要的信息  path dao包路径  packageName dao中的java文件需要指定包名 -->
+    <dao path="\\src\\main\\java\\com\\example\\demo\\dao">
+        <packageName>com.example.demo.dao</packageName>
+    </dao>
+
+    <!-- model.ftl需要的信息  path model包路径   packageName model中的java文件需要指定包名    class 实体类名   desc 类名注释 -->
+    <models path="\\src\\main\\java\\com\\example\\demo\\entity">
+        <packageName>com.example.demo.entity</packageName>
+    </models>
+</root>

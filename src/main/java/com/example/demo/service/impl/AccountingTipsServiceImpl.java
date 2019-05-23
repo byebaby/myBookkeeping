@@ -13,7 +13,6 @@ import java.util.List;
 public class AccountingTipsServiceImpl implements AccountingTipsService {
     private final AccountingTipsDao accountingTipsDao;
 
-    @Autowired
     public AccountingTipsServiceImpl(AccountingTipsDao accountingTipsDao) {
         this.accountingTipsDao = accountingTipsDao;
     }
