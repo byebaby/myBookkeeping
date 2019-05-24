@@ -69,7 +69,10 @@ public class Generate {
 
         for (String entityName : GenerateUtil.getFileList(System.getProperty("user.dir") + ModelfilePath)) {
             Attr attr1 = new Attr(entityName, "Generate");
-            modellist.add(attr1);
+            if (!attr1.getClassName().contains("Base")) {
+                modellist.add(attr1);
+            }
+
         }
 //        for (int i = 0; i < params.getLength(); i++) {
 //            Node node = params.item(i);

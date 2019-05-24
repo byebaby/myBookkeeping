@@ -5,7 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity(name = "roles_permissions")
-public class RolePerm {
+public class RolePerm extends BaseEntity {
     @Id
     @GeneratedValue
     private Long id;

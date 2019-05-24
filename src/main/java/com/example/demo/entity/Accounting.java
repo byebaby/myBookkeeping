@@ -6,20 +6,20 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-public class Accounting {
+public class Accounting extends BaseEntity {
     @Id
     @GeneratedValue
-    private int id;
+    private Long id;
     private Long userId;
     private LocalDate createDate;
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "accounting")
     private List<AccountingDetail> accountingDetail;
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

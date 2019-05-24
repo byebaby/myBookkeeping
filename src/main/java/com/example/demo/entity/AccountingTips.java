@@ -1,21 +1,23 @@
 package com.example.demo.entity;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 @Entity
-public class AccountingTips {
+public class AccountingTips extends BaseEntity {
     @Id
     @GeneratedValue
-    private int id;
+    private Long id;
     private String userName;
     private String type;
     private String message;
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

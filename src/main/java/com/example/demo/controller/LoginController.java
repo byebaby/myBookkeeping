@@ -64,8 +64,6 @@ public class LoginController {
         Date date = new Date();
         User user = new User();
         user.setUsername(username);
-        user.setCreated(date);
-        user.setUpdated(date);
         Map map = encryptPassword(password);
         user.setPassword_salt(map.get("salt").toString());
         user.setPassword(map.get("saltPassword").toString());

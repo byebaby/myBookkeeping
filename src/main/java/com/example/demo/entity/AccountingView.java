@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
-public class AccountingView {
+public class AccountingView  {
     @Id
     private UUID uuid;
     private int userId;

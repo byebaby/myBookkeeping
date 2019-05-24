@@ -1,23 +1,26 @@
 package com.example.demo.entity;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
-public class AccountingDetail {
+public class AccountingDetail extends BaseEntity {
     @Id
     @GeneratedValue
-    private int id;
+    private Long id;
     private String type;
     private String message;
     private int amount;
     @ManyToOne
     private Accounting accounting;
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

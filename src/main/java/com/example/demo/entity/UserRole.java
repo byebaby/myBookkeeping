@@ -5,7 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity(name = "user_roles")
-public class UserRole {
+public class UserRole extends BaseEntity {
     @Id
     @GeneratedValue
     private Long id;
