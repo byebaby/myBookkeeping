@@ -4,7 +4,6 @@ import com.example.demo.dao.AccountingTipsDao;
 import com.example.demo.entity.AccountingTips;
 import com.example.demo.service.AccountingTipsService;
 import org.apache.shiro.SecurityUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,7 +19,7 @@ public class AccountingTipsServiceImpl implements AccountingTipsService {
 
     @Override
     public List<AccountingTips> findByUsername(String username) {
-        return accountingTipsDao.findByuserName(username);
+        return accountingTipsDao.findByUserName(username);
     }
 
     @Override
@@ -33,7 +32,7 @@ public class AccountingTipsServiceImpl implements AccountingTipsService {
 
     @Override
     public void del(List<AccountingTips> tips) {
-        tips.removeIf(x -> x.getId() == 0);
+        tips.removeIf(x -> x.getId() == null);
         accountingTipsDao.deleteAll(tips);
     }
 }

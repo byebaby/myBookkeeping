@@ -91,13 +91,21 @@
                     break;
                 case 'delete':
                     console.log(checkStatus.data);
+
                     layer.confirm('真的删除行么', function (index) {
                         var trObjs = getChecked(obj);
+                        var checkdata = checkStatus.data;
+                        for (var i = 0; i < checkdata.length; i++) {
+                            if (checkdata[i].id == '') {
+                                checkdata.splice(i, 1);
+                                i = i - 1;
+                            }
+                        }
                         $.ajax({
                             url: '/account/ModelTipsDataDelete',
                             contentType: "application/json; charset=utf-8",
                             dataType: "json",
-                            data: JSON.stringify(checkStatus.data),
+                            data: JSON.stringify(checkdata),
                             type: 'post',
                             success: function (object) {
                                 if (object.code == 1) {

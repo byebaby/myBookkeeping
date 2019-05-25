@@ -1,9 +1,7 @@
 package com.example.demo;
 
-import com.example.demo.dao.AccountingDao;
-import com.example.demo.dao.AccountingDetailDao;
-import com.example.demo.entity.Accounting;
-import com.example.demo.entity.AccountingDetail;
+import com.example.demo.mapper.AccountingTipsMapper;
+import com.example.demo.service.AccountingTipsService;
 import com.example.demo.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,16 +12,17 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class DemoApplicationTests {
-
+    @Autowired
+    private AccountingTipsMapper accountingTipsMapper;
     @Autowired
     private UserService userService;
     @Autowired
-    private AccountingDao accountingDao;
+    private AccountingTipsService accountingTipsService;
 
     @Test
     public void contextLoads() {
-        userService.findUserByName("qqqqqq");
-
+        accountingTipsMapper.toDTO(accountingTipsService.findByUsername("admin"));
+        System.out.println("test");
     }
 }
 

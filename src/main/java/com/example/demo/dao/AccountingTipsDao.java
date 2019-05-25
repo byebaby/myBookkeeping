@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface AccountingTipsDao extends JpaRepository<AccountingTips, Integer> {
-    List<AccountingTips> findByuserName(String username);
+    List<AccountingTips> findByUserName(String username);
 }
 
