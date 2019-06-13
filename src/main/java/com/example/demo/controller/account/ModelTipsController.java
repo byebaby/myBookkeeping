@@ -1,8 +1,10 @@
 package com.example.demo.controller.account;
 
+import com.example.demo.entity.AccountingDetail;
 import com.example.demo.entity.AccountingTips;
 import com.example.demo.mapper.AccountingTipsMapper;
 import com.example.demo.mapper.dto.AccountingTipsDto;
+import com.example.demo.service.AccountingService;
 import com.example.demo.service.AccountingTipsService;
 import com.example.demo.vo.Json;
 import org.apache.shiro.SecurityUtils;
@@ -18,11 +20,12 @@ import java.util.List;
 public class ModelTipsController {
     private final AccountingTipsMapper accountingTipsMapper;
     private final AccountingTipsService accountingTipsService;
+    private final AccountingService accountingService;
 
-
-    public ModelTipsController(AccountingTipsMapper accountingTipsMapper, AccountingTipsService accountingTipsService) {
+    public ModelTipsController(AccountingTipsMapper accountingTipsMapper, AccountingTipsService accountingTipsService, AccountingService accountingService) {
         this.accountingTipsMapper = accountingTipsMapper;
         this.accountingTipsService = accountingTipsService;
+        this.accountingService = accountingService;
     }
 
     @GetMapping("/account/accountingTipsForm")
@@ -41,10 +44,15 @@ public class ModelTipsController {
 
     @GetMapping("/account/ModelTipsDataIgnore")
     @ResponseBody
-    public Json getModelTipsDataIgnore() {
+    public Json getModelTipsDataIgnore(Long id) {
         List<AccountingTips> tipsList = accountingTipsService.findByUsername(SecurityUtils.getSubject().getPrincipal().toString());
-        List<AccountingTipsDto> dtos = accountingTipsMapper.toDTOIgnoreId(tipsList);
-        return Json.succ("viewData", dtos).data("count", dtos.size());
+        if (id == null) {
+            List<AccountingTipsDto> dtos = accountingTipsMapper.toDTOIgnoreId(tipsList);
+            return Json.succ("viewData", dtos).data("count", dtos.size());
+        } else {
+            List<AccountingDetail> details = accountingService.findById(id).getAccountingDetail();
+            return Json.succ("viewData", details).data("count", details.size());
+        }
 
 
     }

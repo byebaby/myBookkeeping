@@ -1,5 +1,7 @@
 package com.example.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -14,6 +16,7 @@ public class AccountingDetail extends BaseEntity {
     private String message;
     private int amount;
     @ManyToOne
+    @JsonIgnore
     private Accounting accounting;
 
     public Long getId() {

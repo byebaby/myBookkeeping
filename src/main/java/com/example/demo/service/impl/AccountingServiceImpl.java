@@ -1,9 +1,12 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.dao.AccountingDao;
+import com.example.demo.entity.Accounting;
 import com.example.demo.service.AccountingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 /**
  * @author cyb
@@ -20,5 +23,9 @@ public class AccountingServiceImpl implements AccountingService {
         this.accountingDao = accountingDao;
     }
 
+    @Override
+    public Accounting findById(Long id) {
+        return accountingDao.findById(id);
+    }
 }
 
