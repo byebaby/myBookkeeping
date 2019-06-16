@@ -65,7 +65,7 @@
 <script th:inline="javascript">
     var main_id = [[${id}]];
 </script>
-
+<script th:replace="include/layuiTablePlus :: tablePlus"></script>
 <script th:inline="none">
     layui.use(['form', 'jquery', 'layer', 'table', 'laydate'], function () {
         var form = layui.form;
@@ -107,11 +107,7 @@
             var checkStatus = table.checkStatus(obj.config.id);
             switch (obj.event) {
                 case 'add':
-                    var data = layui.table.cache.table;
-                    data.push({id: '', type: '', message: ''});
-                    table.reload("table", {
-                        data: data
-                    });
+                    tablePlusLineAdd("table");
                     break;
                 case 'delete':
                     console.log(checkStatus.data);
@@ -183,78 +179,8 @@
             }
         });
 
-        //获取所有选中行对象 obj=头工具栏对象
-        function getChecked(obj) {
-            obj.trObjs = [];
-            var that = {};
-            that.elem = obj.config.elem.next();
-            that.layBody = that.elem.find('.layui-table-body');
-            that.key = obj.config.id;
-            that.layBody.find('.layui-form-checked').each(function () {
-                obj.trObjs.push(commonMember(that, $(this)));
-            });
-            return obj.trObjs;
-        }
 
-        //数据行中的事件监听返回的公共对象成员
-        var commonMember = function (that, othis, sets) {
-            var ELEM_CELL = '.layui-table-cell';
-            var index = othis.parents('tr').eq(0).data('index')
-                , tr = that.layBody.find('tr[data-index="' + index + '"]')
-                , data = table.cache[that.key][index];
-            return $.extend({
-                tr: tr //行元素
-                , data: table.clearCacheKey(data) //当前行数据
-                , del: function () { //删除行数据
-                    table.cache[that.key][index] = null;
-                    tr.remove();
 
-                }
-                , update: function (fields) { //修改行数据
-                    fields = fields || {};
-                    layui.each(fields, function (key, value) {
-                        if (key in data) {
-                            var templet, td = tr.children('td[data-field="' + key + '"]');
-                            data[key] = value;
-                            table.eachCols(function (i, item2) {
-                                if (item2.field == key && item2.templet) {
-                                    templet = item2.templet;
-                                }
-                            });
-                            td.children(ELEM_CELL).html(function () {
-                                return templet ? function () {
-                                    return typeof templet === 'function'
-                                        ? templet(data)
-                                        : laytpl($(templet).html() || value).render(data)
-                                }() : value;
-                            }());
-                            td.data('content', value);
-                        }
-                    });
-                }
-            }, sets);
-        };
-
-        // table.render({
-        //     elem: '#table'
-        //     , url: '/account/ModelTipsDataIgnore'
-        //     , initSort: {
-        //         field: 'type' //排序字段，对应 cols 设定的各字段名
-        //         , type: 'desc' //排序方式  asc: 升序、desc: 降序、null: 默认排序
-        //     }
-        //     , toolbar: '#toolbar'
-        //     , defaultToolbar: []
-        //     , cols: [[
-        //         {type: 'checkbox'}
-        //         , {field: 'type', title: '类型', sort: true}
-        //         , {field: 'message', title: '签名'}
-        //         , {field: 'amount', title: '金额', edit: 'text'}
-        //     ]],
-        //     response: {
-        //         statusName: 'code' //规定数据状态的字段名称，默认：code
-        //         , statusCode: 1 //规定成功的状态码，默认：0
-        //     }
-        // });
         laydate.render({
             elem: '#laydate' //指定元素
         });
