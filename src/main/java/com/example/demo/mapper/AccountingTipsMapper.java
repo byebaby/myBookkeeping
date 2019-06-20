@@ -1,6 +1,6 @@
 package com.example.demo.mapper;
 
-import com.example.demo.entity.AccountingTips;
+import com.example.demo.entity.AssetModel;
 import com.example.demo.mapper.dto.AccountingTipsDto;
 import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
@@ -12,13 +12,13 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface AccountingTipsMapper {
 
-    List<AccountingTipsDto> toDTO(List<AccountingTips> accountingTips);
+    List<AccountingTipsDto> toDTO(List<AssetModel> accountingTips);
     @IterableMapping(qualifiedByName="toDTOIgnoreIdByOne")
-    List<AccountingTipsDto> toDTOIgnoreId(List<AccountingTips> accountingTips);
+    List<AccountingTipsDto> toDTOIgnoreId(List<AssetModel> accountingTips);
 
-    List<AccountingTips> toEntity(List<AccountingTipsDto> accountingTipsDto);
+    List<AssetModel> toEntity(List<AccountingTipsDto> accountingTipsDto);
 
     @Named("toDTOIgnoreIdByOne")
     @Mapping(target = "id", ignore = true)
-    AccountingTipsDto toDTOIgnoreIdByOne(AccountingTips accountingTips);
+    AccountingTipsDto toDTOIgnoreIdByOne(AssetModel assetModel);
 }
