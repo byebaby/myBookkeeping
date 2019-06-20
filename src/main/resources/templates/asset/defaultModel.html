@@ -96,10 +96,7 @@
                             type: 'post',
                             success: function (object) {
                                 if (object.code == 1) {
-                                    layui.each(trObjs, function (index, trObj) {
-                                        trObj.del();
-                                    });
-
+                                    tablePlusLineDel(trObjs);
                                 } else {
                                     layer.msg("删除失败" + object.message);
                                 }

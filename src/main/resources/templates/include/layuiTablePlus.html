@@ -5,10 +5,25 @@
         function tablePlusLineAdd(tableId) {
             var table = layui.table;
             var data = layui.table.cache.table;
+            console.log(data);
             data.push({id: '', type: '', message: ''});
             table.reload(tableId, {
                 data: data
             });
+        }
+
+        function tablePlusLineDel(trObjs) {
+            var table = layui.table;
+            layui.each(trObjs, function (index, trObj) {
+                trObj.del();
+            });
+            for (var i = 0; i < table.cache.table.length; i++) {
+                if (table.cache.table[i] == null) {
+                    table.cache.table.splice(i, 1);
+                    i = i - 1; // i - 1 ,因为空元素在数组下标 2 位置，删除空之后，后面的元素要向前补位，
+                               // 这样才能真正去掉空元素,觉得这句可以删掉的连续为空试试，然后思考其中逻辑
+                }
+            }
         }
 
         //获取所有选中行对象 obj=头工具栏对象
@@ -39,13 +54,7 @@
                 , del: function () { //删除行数据
                     table.cache[that.key][index] = null;
                     tr.remove();
-                    for (var i = 0; i < table.cache.table.length; i++) {
-                        if (table.cache.table[i] == null) {
-                            table.cache.table.splice(i, 1);
-                            i = i - 1; // i - 1 ,因为空元素在数组下标 2 位置，删除空之后，后面的元素要向前补位，
-                                       // 这样才能真正去掉空元素,觉得这句可以删掉的连续为空试试，然后思考其中逻辑
-                        }
-                    }
+
                 }
                 , update: function (fields) { //修改行数据
                     fields = fields || {};
