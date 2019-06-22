@@ -137,6 +137,18 @@ public class AccountDebtController {
         return Json.succ("saveDetail");
     }
 
+    /**
+     * 保存用户资产数据
+     *
+     * @param assetMain
+     * @return
+     */
+    @PostMapping("/asset/delAssetsFormData")
+    @ResponseBody
+    public Json delAssetsFormData( AssetMain assetMain) {
+        assetMainService.save(assetMain);
+        return Json.succ("saveDetail");
+    }
 
     /**
      * 获取用户模型数据
