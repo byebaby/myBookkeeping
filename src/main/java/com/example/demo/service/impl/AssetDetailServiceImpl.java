@@ -31,7 +31,7 @@ public class AssetDetailServiceImpl implements AssetDetailService {
         accounting.setCreateDate(date);
         accountingDao.save(accounting);
         for (AssetDetail accountingDetail : accountingDetails) {
-            accountingDetail.setAccounting(accounting);
+            accountingDetail.setAssetMain(accounting);
         }
         return accountingDetailDao.saveAll(accountingDetails);
     }

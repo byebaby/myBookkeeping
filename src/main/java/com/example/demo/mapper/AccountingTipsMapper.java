@@ -1,5 +1,6 @@
 package com.example.demo.mapper;
 
+import com.example.demo.entity.AssetDetail;
 import com.example.demo.entity.AssetModel;
 import com.example.demo.mapper.dto.AccountingTipsDto;
 import org.mapstruct.IterableMapping;
@@ -16,7 +17,7 @@ public interface AccountingTipsMapper {
     @IterableMapping(qualifiedByName="toDTOIgnoreIdByOne")
     List<AccountingTipsDto> toDTOIgnoreId(List<AssetModel> accountingTips);
 
-    List<AssetModel> toEntity(List<AccountingTipsDto> accountingTipsDto);
+    List<AssetDetail> toAssetDetail(List<AccountingTipsDto> accountingTipsDto);
 
     @Named("toDTOIgnoreIdByOne")
     @Mapping(target = "id", ignore = true)

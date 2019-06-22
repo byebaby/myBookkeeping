@@ -10,4 +10,5 @@ import com.example.demo.entity.AssetMain;
 public interface AssetMainService {
     AssetMain findById(Long id);
 
+    void save(AssetMain assetMain);
 }

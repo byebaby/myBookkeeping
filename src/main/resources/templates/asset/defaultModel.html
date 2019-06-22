@@ -55,7 +55,7 @@
         var table = layui.table;
         var form = layui.form;
         $.ajax({
-            url: '/account/ModelTipsData',
+            url: '/asset/getModelData',
             success: function (object) {
                 var data = object.data;
                 table.render({
@@ -89,7 +89,7 @@
                             }
                         }
                         $.ajax({
-                            url: '/account/ModelTipsDataDelete',
+                            url: '/asset/delModelData',
                             contentType: "application/json; charset=utf-8",
                             dataType: "json",
                             data: JSON.stringify(checkdata),
@@ -117,7 +117,7 @@
                     });
                     if (flag) {
                         $.ajax({
-                            url: '/asset/modelData',
+                            url: '/asset/saveModelData',
                             contentType: "application/json; charset=utf-8",
                             dataType: "json",
                             data: JSON.stringify(table.cache.table),

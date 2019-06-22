@@ -1,6 +1,6 @@
 package com.example.demo.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,8 +16,8 @@ public class AssetDetail extends BaseEntity {
     private String message;
     private int amount;
     @ManyToOne
-    @JsonIgnore
-    private AssetMain accounting;
+    @JsonIgnoreProperties("assetDetail")
+    private AssetMain assetMain;
 
     public Long getId() {
         return id;
@@ -51,11 +51,11 @@ public class AssetDetail extends BaseEntity {
         this.amount = amount;
     }
 
-    public AssetMain getAccounting() {
-        return accounting;
+    public AssetMain getAssetMain() {
+        return assetMain;
     }
 
-    public void setAccounting(AssetMain accounting) {
-        this.accounting = accounting;
+    public void setAssetMain(AssetMain assetMain) {
+        this.assetMain = assetMain;
     }
 }

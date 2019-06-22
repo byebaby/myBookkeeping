@@ -12,7 +12,7 @@ public class AssetMain extends BaseEntity {
     private Long id;
     private Long userId;
     private LocalDate createDate;
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "accounting",fetch = FetchType.EAGER)
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "assetMain", fetch = FetchType.EAGER)
     private List<AssetDetail> assetDetail;
 
     public Long getId() {

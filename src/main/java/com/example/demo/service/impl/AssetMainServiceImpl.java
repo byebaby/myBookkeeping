@@ -25,5 +25,10 @@ public class AssetMainServiceImpl implements AssetMainService {
     public AssetMain findById(Long id) {
         return accountingDao.findById(id);
     }
+
+    @Override
+    public void save(AssetMain assetMain) {
+        accountingDao.save(assetMain);
+    }
 }
 

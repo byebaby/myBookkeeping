@@ -27,7 +27,7 @@
         var table = layui.table;
         table.render({
             elem: '#table'
-            , url: '/account/accountingViewData' //数据接口
+            , url: '/asset/getAssetsViewData' //数据接口
             , toolbar: '#toolbar'
             , page: true //开启分页
             , cols: [[ //表头
@@ -45,25 +45,15 @@
             }
         });
         table.on('toolbar(table)', function (obj) {
-            var checkStatus = table.checkStatus(obj.config.id);
-            switch (obj.event) {
-                case 'add':
-                    layer.open({
-                        type: 2,
-                        title: '新增明细数据',
-                        shadeClose: false,
-                        maxmin: true, //开启最大化最小化按钮
-                        area: ['893px', '600px'],
-                        content: '/account/assetsDebtForm'
-                    });
-                    break;
-                case 'update':
-                    var data = checkStatus.data;
-                    layer.msg('选中了：' + data.length + ' 个');
-                    break;
-                case 'delete':
-                    layer.msg(checkStatus.isAll ? '全选' : '未全选');
-                    break;
+            if (obj.event === 'add') {
+                layer.open({
+                    type: 2,
+                    title: '新增明细数据',
+                    shadeClose: false,
+                    maxmin: true, //开启最大化最小化按钮
+                    area: ['893px', '600px'],
+                    content: '/asset/assetsForm'
+                });
             }
         });
         table.on('tool(table)', function (obj) {
@@ -78,7 +68,7 @@
                     shadeClose: false,
                     maxmin: true, //开启最大化最小化按钮
                     area: ['893px', '600px'],
-                    content: '/account/assetsDebtForm?id='+data.id
+                    content: '/asset/assetsForm?dataId=' + data.id
                 });
             }
         });
