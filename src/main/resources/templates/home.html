@@ -2,7 +2,11 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <div th:replace="include/header :: commonHead"></div>
-
+    <style>
+        .layui-tab-item {
+            height: 100%
+        }
+    </style>
 </head>
 <body>
 <div class="layui-layout layui-layout-admin">
@@ -33,8 +37,8 @@
         <div class="layui-tab  layui-tab-brief" lay-filter="tab" lay-allowclose="true" style="height:97%">
             <ul class="layui-tab-title">
             </ul>
-               <div class="layui-tab-content" style="height: 94%">
-               </div>
+            <div class="layui-tab-content" style="height: 94%">
+            </div>
         </div>
     </div>
 
