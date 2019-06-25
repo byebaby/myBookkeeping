@@ -74,14 +74,11 @@
             }
             if (layEvent === 'del') {
                 $.ajax({
-                    url: '/asset/delModelData',
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    data: JSON.stringify(checkdata),
-                    type: 'post',
+                    url: '/asset/delAssetsViewData',
+                    data: {"id":obj.data.id},
                     success: function (object) {
                         if (object.code == 1) {
-                            tablePlusLineDel(trObjs);
+                            table.reload('table');
                         } else {
                             layer.msg("删除失败" + object.message);
                         }

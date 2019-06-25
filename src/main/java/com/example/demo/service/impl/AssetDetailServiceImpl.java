@@ -14,13 +14,13 @@ import java.util.List;
 
 @Service("AccountingDetailService")
 public class AssetDetailServiceImpl implements AssetDetailService {
-    private final AssetDetailDao accountingDetailDao;
-    private final AssetMainDao accountingDao;
+    private final AssetDetailDao assetDetailDao;
+    private final AssetMainDao assetMainDao;
     private final UserDao userDao;
 
-    public AssetDetailServiceImpl(AssetDetailDao accountingDetailDao, AssetMainDao accountingDao, UserDao userDao) {
-        this.accountingDetailDao = accountingDetailDao;
-        this.accountingDao = accountingDao;
+    public AssetDetailServiceImpl(AssetDetailDao assetDetailDao, AssetMainDao assetMainDao, UserDao userDao) {
+        this.assetDetailDao = assetDetailDao;
+        this.assetMainDao = assetMainDao;
         this.userDao = userDao;
     }
 
@@ -29,10 +29,15 @@ public class AssetDetailServiceImpl implements AssetDetailService {
         AssetMain accounting = new AssetMain();
         accounting.setUserId(userDao.findByUsername(SecurityUtils.getSubject().getPrincipal().toString()).getId());
         accounting.setCreateDate(date);
-        accountingDao.save(accounting);
+        assetMainDao.save(accounting);
         for (AssetDetail accountingDetail : accountingDetails) {
             accountingDetail.setAssetMain(accounting);
         }
-        return accountingDetailDao.saveAll(accountingDetails);
+        return assetDetailDao.saveAll(accountingDetails);
+    }
+
+    @Override
+    public void delAll(List<AssetDetail> assetDetails) {
+        assetDetailDao.deleteAll(assetDetails);
     }
 }

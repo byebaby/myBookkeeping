@@ -5,7 +5,6 @@
         function tablePlusLineAdd(tableId) {
             var table = layui.table;
             var data = layui.table.cache.table;
-            console.log(data);
             data.push({id: '', type: '', message: ''});
             table.reload(tableId, {
                 data: data

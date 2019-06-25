@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface AssetDetailService {
     List<AssetDetail> save(LocalDate date, List<AssetDetail> accountingDetails);
+    void delAll( List<AssetDetail> assetDetails);
+
 }

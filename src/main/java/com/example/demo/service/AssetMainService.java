@@ -11,4 +11,6 @@ public interface AssetMainService {
     AssetMain findById(Long id);
 
     void save(AssetMain assetMain);
+
+    void deleteById(Long id);
 }

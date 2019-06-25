@@ -12,7 +12,8 @@ public class AssetMain extends BaseEntity {
     private Long id;
     private Long userId;
     private LocalDate createDate;
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "assetMain", fetch = FetchType.EAGER)
+    @OneToMany(cascade = {CascadeType.ALL},fetch = FetchType.EAGER)
+    @JoinColumn(name = "asset_main_id")
     private List<AssetDetail> assetDetail;
 
     public Long getId() {

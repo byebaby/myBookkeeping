@@ -1,14 +1,12 @@
 package com.example.demo.controller.asset;
 
+import com.example.demo.entity.AssetDetail;
 import com.example.demo.entity.AssetMain;
 import com.example.demo.entity.AssetModel;
 import com.example.demo.entity.AssetView;
 import com.example.demo.mapper.AccountingTipsMapper;
 import com.example.demo.mapper.dto.AccountingTipsDto;
-import com.example.demo.service.AssetDetailService;
-import com.example.demo.service.AssetMainService;
-import com.example.demo.service.AssetModelService;
-import com.example.demo.service.AssetViewService;
+import com.example.demo.service.*;
 import com.example.demo.vo.Json;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Controller;
@@ -22,18 +20,20 @@ import java.util.List;
 
 @Controller
 public class AccountDebtController {
+    private final UserService userService;
     private final AssetMainService assetMainService;
     private final AssetViewService assetViewService;
     private final AssetDetailService assetDetailService;
     private final AssetModelService assetModelService;
     private final AccountingTipsMapper accountingTipsMapper;
 
-    public AccountDebtController(AssetViewService assetViewService, AssetDetailService assetDetailService, AssetModelService assetModelService, AccountingTipsMapper accountingTipsMapper, AssetMainService assetMainService) {
+    public AccountDebtController(AssetViewService assetViewService, AssetModelService assetModelService, AccountingTipsMapper accountingTipsMapper, AssetMainService assetMainService, UserService userService, AssetDetailService assetDetailService) {
         this.assetMainService = assetMainService;
         this.assetViewService = assetViewService;
-        this.assetDetailService = assetDetailService;
         this.assetModelService = assetModelService;
         this.accountingTipsMapper = accountingTipsMapper;
+        this.userService = userService;
+        this.assetDetailService = assetDetailService;
     }
 
     /**
@@ -75,15 +75,15 @@ public class AccountDebtController {
     /**
      * 表单模板配置删除
      *
-     * @param tips
+     * @param assetModels
      * @return
      */
     @PostMapping("/asset/delModelData")
     @ResponseBody
-    public Json delModelData(@RequestBody List<AssetModel> tips) {
+    public Json delModelData(@RequestBody List<AssetModel> assetModels) {
 
-        assetModelService.del(tips);
-        return Json.succ("deleteData").data("count", tips.size());
+        assetModelService.del(assetModels);
+        return Json.succ("deleteData").data("count", assetModels.size());
     }
 
     /**
@@ -106,11 +106,24 @@ public class AccountDebtController {
     @ResponseBody
     public Json getAssetsViewData() {
         List<AssetView> accountingViews = assetViewService.findViewDataByUserName(SecurityUtils.getSubject().getPrincipal().toString());
-        return Json.succ("viewData", accountingViews).data("count", accountingViews.size());
+        return Json.succ("getAssetsViewData", accountingViews).data("count", accountingViews.size());
     }
 
     /**
-     * 用户资产数据 新增修改页面
+     * 删除用户资产数据
+     *
+     * @param id
+     * @return
+     */
+    @GetMapping("/asset/delAssetsViewData")
+    @ResponseBody
+    public Json delAssetsFormData(Long id) {
+        assetMainService.deleteById(id);
+        return Json.succ("delAssetsViewData");
+    }
+
+    /**
+     * 用户资产数据 新增修改明细页面
      *
      * @param dataId
      * @param modelMap
@@ -125,7 +138,7 @@ public class AccountDebtController {
     }
 
     /**
-     * 保存用户资产数据
+     * 保存用户资产明细数据
      *
      * @param assetMain
      * @return
@@ -133,25 +146,20 @@ public class AccountDebtController {
     @PostMapping("/asset/saveAssetsFormData")
     @ResponseBody
     public Json saveAssetsFormData(@RequestBody AssetMain assetMain) {
+        assetMain.setUserId(userService.findUserByName(SecurityUtils.getSubject().getPrincipal().toString()).getId());
         assetMainService.save(assetMain);
         return Json.succ("saveDetail");
     }
 
-    /**
-     * 保存用户资产数据
-     *
-     * @param assetMain
-     * @return
-     */
-    @PostMapping("/asset/delAssetsFormData")
+    @PostMapping("/asset/deleteAssetsFormData")
     @ResponseBody
-    public Json delAssetsFormData( AssetMain assetMain) {
-        assetMainService.save(assetMain);
-        return Json.succ("saveDetail");
+    public Json deleteAssetsFormData(@RequestBody List<AssetDetail> assetDetails) {
+        assetDetailService.delAll(assetDetails);
+        return Json.succ("deleteAssetsFormData");
     }
 
     /**
-     * 获取用户模型数据
+     * 获取用户资产明细接口
      *
      * @param id
      * @return
@@ -159,8 +167,8 @@ public class AccountDebtController {
     @GetMapping("/asset/getUserModelData")
     @ResponseBody
     public Json getUserModelData(Long id) {
-        List<AssetModel> assetModels = assetModelService.findByUsername(SecurityUtils.getSubject().getPrincipal().toString());
         if (id == null) {
+            List<AssetModel> assetModels = assetModelService.findByUsername(SecurityUtils.getSubject().getPrincipal().toString());
             List<AccountingTipsDto> dtos = accountingTipsMapper.toDTOIgnoreId(assetModels);
             AssetMain assetMain = new AssetMain();
             assetMain.setAssetDetail(accountingTipsMapper.toAssetDetail(dtos));

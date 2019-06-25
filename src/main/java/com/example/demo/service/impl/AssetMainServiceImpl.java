@@ -5,6 +5,8 @@ import com.example.demo.entity.AssetMain;
 import com.example.demo.service.AssetMainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 
 /**
  * @author cyb
@@ -14,21 +16,28 @@ import org.springframework.stereotype.Service;
 @Service("AccountingService")
 public class AssetMainServiceImpl implements AssetMainService {
 
-    private final AssetMainDao accountingDao;
+    private final AssetMainDao assetMainDao;
 
     @Autowired
-    public AssetMainServiceImpl(AssetMainDao accountingDao) {
-        this.accountingDao = accountingDao;
+    public AssetMainServiceImpl(AssetMainDao assetMainDao) {
+        this.assetMainDao = assetMainDao;
     }
 
     @Override
     public AssetMain findById(Long id) {
-        return accountingDao.findById(id);
+        return assetMainDao.findById(id);
     }
 
+    @Transactional
     @Override
     public void save(AssetMain assetMain) {
-        accountingDao.save(assetMain);
+        assetMainDao.save(assetMain);
+    }
+
+    @Transactional
+    @Override
+    public void deleteById(Long id) {
+        assetMainDao.deleteById(id);
     }
 }
 

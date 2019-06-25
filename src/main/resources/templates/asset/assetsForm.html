@@ -75,6 +75,7 @@
         var laydate = layui.laydate;
         var url;
         var assetMain;
+        var delDetailArray = [];
         laydate.render({
             elem: '#laydate' //指定元素
         });
@@ -128,21 +129,8 @@
                                 i = i - 1;
                             }
                         }
-                        $.ajax({
-                            url: '/asset/delModelData',
-                            contentType: "application/json; charset=utf-8",
-                            dataType: "json",
-                            data: JSON.stringify(checkdata),
-                            type: 'post',
-                            success: function (object) {
-                                if (object.code == 1) {
-                                    tablePlusLineDel(trObjs);
-                                } else {
-                                    layer.msg("删除失败" + object.message);
-                                }
-
-                            }
-                        });
+                        delDetailArray = delDetailArray.concat(checkdata);
+                        tablePlusLineDel(trObjs);
                         layer.close(index);
                     });
                     break;
@@ -152,8 +140,10 @@
 
         //监听提交
         form.on('submit(form)', function (data) {
+
             assetMain['assetDetail'] = table.cache.table;
             assetMain['createDate'] = data.field.date;
+
             $.ajax({
                 url: '/asset/saveAssetsFormData',
                 contentType: "application/json; charset=utf-8",
@@ -162,10 +152,23 @@
                 type: 'post',
                 success: function (object) {
                     if (object.code == 1) {
-                        layer.msg("保存成功");
-                        //当你在iframe页面关闭自身时
-                        var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
-                        parent.layer.close(index); //再执行关闭
+                        $.ajax({
+                            url: '/asset/deleteAssetsFormData',
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            data: JSON.stringify(delDetailArray),
+                            type: 'post',
+                            success: function (object) {
+                                if (object.code == 1) {
+                                    layer.msg("保存成功");
+                                    //当你在iframe页面关闭自身时
+                                    var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                                    parent.layer.close(index); //再执行关闭
+                                } else {
+                                    layer.msg("保存失败" + object.message);
+                                }
+                            }
+                        });
                     } else {
                         layer.msg("保存失败" + object.message);
                     }
