@@ -34,7 +34,7 @@
         <div class="layui-input-inline">
 
             <input type="text" name="date" class="layui-input" id="laydate" placeholder="创建日期"
-                   lay-verify="required|date" style="float: left">
+                   lay-verify="required|datetime" style="float: left">
         </div>
 
         <div class="layui-input-inline">
@@ -78,6 +78,7 @@
         var delDetailArray = [];
         laydate.render({
             elem: '#laydate' //指定元素
+            // , type: 'datetime'
         });
         if (dataId != null) {
             url = '/asset/getUserModelData?id=' + dataId;
@@ -132,6 +133,7 @@
                         delDetailArray = delDetailArray.concat(checkdata);
                         tablePlusLineDel(trObjs);
                         layer.close(index);
+
                     });
                     break;
 
@@ -164,6 +166,7 @@
                                     //当你在iframe页面关闭自身时
                                     var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
                                     parent.layer.close(index); //再执行关闭
+                                    parent.layui.table.reload('table');
                                 } else {
                                     layer.msg("保存失败" + object.message);
                                 }

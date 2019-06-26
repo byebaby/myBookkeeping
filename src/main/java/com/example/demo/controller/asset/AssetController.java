@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.List;
 
 @Controller
-public class AccountDebtController {
+public class AssetController {
     private final UserService userService;
     private final AssetMainService assetMainService;
     private final AssetViewService assetViewService;
@@ -27,7 +27,7 @@ public class AccountDebtController {
     private final AssetModelService assetModelService;
     private final AccountingTipsMapper accountingTipsMapper;
 
-    public AccountDebtController(AssetViewService assetViewService, AssetModelService assetModelService, AccountingTipsMapper accountingTipsMapper, AssetMainService assetMainService, UserService userService, AssetDetailService assetDetailService) {
+    public AssetController(AssetViewService assetViewService, AssetModelService assetModelService, AccountingTipsMapper accountingTipsMapper, AssetMainService assetMainService, UserService userService, AssetDetailService assetDetailService) {
         this.assetMainService = assetMainService;
         this.assetViewService = assetViewService;
         this.assetModelService = assetModelService;

@@ -11,8 +11,9 @@ public class AssetMain extends BaseEntity {
     @GeneratedValue
     private Long id;
     private Long userId;
+    //    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDate createDate;
-    @OneToMany(cascade = {CascadeType.ALL},fetch = FetchType.EAGER)
+    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     @JoinColumn(name = "asset_main_id")
     private List<AssetDetail> assetDetail;
 

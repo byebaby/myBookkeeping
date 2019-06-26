@@ -30,6 +30,7 @@
             elem: '#table'
             , url: '/asset/getAssetsViewData' //数据接口
             , toolbar: '#toolbar'
+            , defaultToolbar: []
             , page: true //开启分页
             , cols: [[ //表头
                 {field: 'username', title: '用户名'}
@@ -73,18 +74,22 @@
                 });
             }
             if (layEvent === 'del') {
-                $.ajax({
-                    url: '/asset/delAssetsViewData',
-                    data: {"id":obj.data.id},
-                    success: function (object) {
-                        if (object.code == 1) {
-                            table.reload('table');
-                        } else {
-                            layer.msg("删除失败" + object.message);
-                        }
+                layer.confirm('真的删除么', function (index) {
+                    $.ajax({
+                        url: '/asset/delAssetsViewData',
+                        data: {"id": obj.data.id},
+                        success: function (object) {
+                            if (object.code == 1) {
+                                table.reload('table');
+                            } else {
+                                layer.msg("删除失败" + object.message);
+                            }
 
-                    }
+                        }
+                    });
+                    layer.close(index);
                 });
+
             }
         });
     });
