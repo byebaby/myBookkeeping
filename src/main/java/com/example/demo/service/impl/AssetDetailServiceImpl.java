@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 
-@Service("AccountingDetailService")
+@Service("AssetDetailService")
 public class AssetDetailServiceImpl implements AssetDetailService {
     private final AssetDetailDao assetDetailDao;
     private final AssetMainDao assetMainDao;

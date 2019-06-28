@@ -8,12 +8,12 @@ import java.time.LocalDate;
 public class AssetView {
     @Id
     private Long id;
-    private int userId;
+    private Integer userId;
     private String username;
     private LocalDate createDate;
-    private int assets;
-    private int debt;
-    private int netAssets;
+    private Integer assets;
+    private Integer debt;
+    private Integer income;
 
 
     public Long getId() {
@@ -64,11 +64,11 @@ public class AssetView {
         this.debt = debt;
     }
 
-    public int getNetAssets() {
-        return netAssets;
+    public int getIncome() {
+        return income;
     }
 
-    public void setNetAssets(int netAssets) {
-        this.netAssets = netAssets;
+    public void setIncome(int income) {
+        this.income = income;
     }
 }

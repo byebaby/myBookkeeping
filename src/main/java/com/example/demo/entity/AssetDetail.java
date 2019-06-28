@@ -11,7 +11,7 @@ public class AssetDetail extends BaseEntity {
     private Long id;
     private String type;
     private String message;
-    private int amount;
+    private Integer amount;
     @ManyToOne
     @JsonIgnoreProperties("assetDetail")
     private AssetMain assetMain;

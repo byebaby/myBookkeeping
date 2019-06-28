@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @desc Generate-服务实现
  * @date 2019-05-23
  */
-@Service("AccountingService")
+@Service("AssetMainService")
 public class AssetMainServiceImpl implements AssetMainService {
 
     private final AssetMainDao assetMainDao;

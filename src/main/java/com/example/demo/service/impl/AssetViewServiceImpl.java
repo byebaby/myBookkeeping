@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service("AccountingViewService")
+@Service("AssetViewService")
 public class AssetViewServiceImpl implements AssetViewService {
     private final AssetViewDao accountingViewDao;
 
