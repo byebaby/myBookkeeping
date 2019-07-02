@@ -169,6 +169,9 @@ public class GenerateUtil {
             FileWriter fw = new FileWriter(file);
             template.process(root, fw);
             fw.close();
+            System.out.println("生成" + fileName + ".java");
+        }else {
+            System.out.println("跳过" + fileName + ".java");
         }
     }
 

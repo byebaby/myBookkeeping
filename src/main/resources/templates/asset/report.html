@@ -6,68 +6,80 @@
 <body>
 <div id="container"></div>
 <script src="/static/Highcharts-7.1.2/code/highcharts.js"></script>
+<script src="/static/layui/layui.js"></script>
 <script>
-    var chart = Highcharts.chart('container', {
-        chart: {
-            type: 'column'
-        },
-        title: {
-            text: '月度资产报表'
-        },
-        xAxis: {
-            categories: [
-                '一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'
-            ],
-            crosshair: true
-        },
-        yAxis: {
+    layui.use(['jquery'], function () {
+        var $ = layui.jquery;
+        var options = {
+            chart: {
+                type: 'column'
+            },
             title: {
-                text: '金额'
-            }
-        },
-        credits: {
-            enabled: false
-        },
-        tooltip: {
-            // head + 每个 point + footer 拼接成完整的 table
-            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                '<td style="padding:0"><b>{point.y:.2f} 元 </b></td></tr>',
-            footerFormat: '</table>',
-            shared: true,
-            useHTML: true
-        },
-
-        plotOptions: {
-            column: {
-                borderWidth: 0
-            }
-        },
-        series: [{
-            name: '净资产',
-            data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
-        }, {
-            name: '净收入',
-            data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]
-        }, {
-            name: '花费支出',
-            data: [11744, 17722, 16005, 19771, 20185, 24377, 32147, 39387]
-        }],
-        responsive: {
-            rules: [{
-                condition: {
-                    maxWidth: 500
-                },
-                chartOptions: {
-                    legend: {
-                        layout: 'horizontal',
-                        align: 'center',
-                        verticalAlign: 'bottom'
-                    }
+                text: '月度资产报表'
+            },
+            xAxis: {
+                categories: [
+                    '一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'
+                ],
+                crosshair: true
+            },
+            yAxis: {
+                title: {
+                    text: '金额'
                 }
-            }]
-        }
+            },
+            credits: {
+                enabled: false
+            },
+            tooltip: {
+                // head + 每个 point + footer 拼接成完整的 table
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y:.2f} 元 </b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+
+            plotOptions: {
+                column: {
+                    borderWidth: 0
+                }
+            },
+            series: [],
+            // {
+            //     name: '净资产',
+            //         data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
+            // }, {
+            //     name: '净收入',
+            //         data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]
+            // }, {
+            //     name: '花费支出',
+            //         data: [11744, 17722, 16005, 19771, 20185, 24377, 32147, 39387]
+            // }
+            responsive: {
+                rules: [{
+                    condition: {
+                        maxWidth: 500
+                    },
+                    chartOptions: {
+                        legend: {
+                            layout: 'horizontal',
+                            align: 'center',
+                            verticalAlign: 'bottom'
+                        }
+                    }
+                }]
+            }
+        };
+        $.getJSON('/asset/getReportData', function (data) {
+            options.series = data;
+            var chart = Highcharts.chart('container', options);
+        });
+
     });
+
+
 </script>
 </body>
 </html>

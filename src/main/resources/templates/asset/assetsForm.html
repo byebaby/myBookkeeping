@@ -143,7 +143,17 @@
 
         //监听提交
         form.on('submit(form)', function (data) {
-
+            var flag = true;
+            $(table.cache.table).each(function () {
+                if (Bee.StringUtils.isBlank($(this).attr("type")) || Bee.StringUtils.isBlank($(this).attr("message")) || Bee.StringUtils.isBlank($(this).attr("amount"))) {
+                    layer.msg('数据未填写完整,请检查');
+                    flag = false;
+                    return false;
+                }
+            });
+            if (!flag) {
+                return false;
+            }
             assetMain['assetDetail'] = table.cache.table;
             assetMain['createDate'] = data.field.date;
 

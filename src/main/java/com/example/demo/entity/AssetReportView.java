@@ -5,14 +5,16 @@ import javax.persistence.Id;
 
 @Entity
 public class AssetReportView {
+
     @Id
     private Long id;
     private String username;
     private String months;
-    private Integer net_assets;
-    private Integer net_income;
-    private Integer income;
-    private Integer expense;
+    private Double netAssets;
+    private Double netIncome;
+    private Double income;
+    private Double expense;
+
 
     public Long getId() {
         return id;
@@ -38,35 +40,35 @@ public class AssetReportView {
         this.months = months;
     }
 
-    public int getNet_assets() {
-        return net_assets;
+    public Double getNetAssets() {
+        return netAssets;
     }
 
-    public void setNet_assets(int net_assets) {
-        this.net_assets = net_assets;
+    public void setNetAssets(Double netAssets) {
+        this.netAssets = netAssets;
     }
 
-    public int getNet_income() {
-        return net_income;
+    public Double getNetIncome() {
+        return netIncome;
     }
 
-    public void setNet_income(int net_income) {
-        this.net_income = net_income;
+    public void setNetIncome(Double netIncome) {
+        this.netIncome = netIncome;
     }
 
-    public int getIncome() {
+    public Double getIncome() {
         return income;
     }
 
-    public void setIncome(int income) {
+    public void setIncome(Double income) {
         this.income = income;
     }
 
-    public int getExpense() {
+    public Double getExpense() {
         return expense;
     }
 
-    public void setExpense(int expense) {
+    public void setExpense(Double expense) {
         this.expense = expense;
     }
 }

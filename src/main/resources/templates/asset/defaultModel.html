@@ -117,7 +117,9 @@
                             return false;
                         }
                     });
-                    if (flag) {
+                    if (!flag){
+                        return false;
+                    }
                         $.ajax({
                             url: '/asset/saveModelData',
                             contentType: "application/json; charset=utf-8",
@@ -135,7 +137,6 @@
                                 }
                             }
                         });
-                    }
             }
         });
 
