@@ -25,7 +25,7 @@ public class AssetMainServiceImpl implements AssetMainService {
 
     @Override
     public AssetMain findById(Long id) {
-        return assetMainDao.findById(id);
+        return assetMainDao.findById(id).orElse(null);
     }
 
     @Transactional

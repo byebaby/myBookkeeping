@@ -27,5 +27,10 @@ public class AssetReportViewServiceImpl implements AssetReportViewService {
     public List<AssetReportView> findAll() {
         return assetreportviewDao.findAll();
     }
+
+    @Override
+    public AssetReportView findByMonthsAndUsername(String months,String username) {
+        return assetreportviewDao.findByMonthsAndUsername(months,username);
+    }
 }
 

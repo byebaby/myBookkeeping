@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface AssetModelDao extends JpaRepository<AssetModel, Integer> {
+public interface AssetModelDao extends JpaRepository<AssetModel, Long> {
     List<AssetModel> findByUserName(String username);
 }
 

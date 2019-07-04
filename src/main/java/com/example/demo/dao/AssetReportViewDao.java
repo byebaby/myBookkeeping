@@ -10,5 +10,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @date 2019-06-27
  */
 public interface AssetReportViewDao extends JpaRepository<AssetReportView, String> {
-
+    AssetReportView findByMonthsAndUsername(String months,String username);
 }

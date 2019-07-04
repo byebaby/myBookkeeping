@@ -40,4 +40,9 @@ public class AssetDetailServiceImpl implements AssetDetailService {
     public void delAll(List<AssetDetail> assetDetails) {
         assetDetailDao.deleteAll(assetDetails);
     }
+
+    @Override
+    public List<AssetDetail> findAllByAssetMain(AssetMain assetMain) {
+        return assetDetailDao.findAllByAssetMain(assetMain);
+    }
 }

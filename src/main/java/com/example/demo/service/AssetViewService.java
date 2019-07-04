@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface AssetViewService {
     List<AssetView> findViewDataByUserName(String userName);
+
 }

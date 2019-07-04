@@ -19,4 +19,6 @@ public class AssetViewServiceImpl implements AssetViewService {
     public List<AssetView> findViewDataByUserName(String userName) {
         return accountingViewDao.findByusername(userName);
     }
+
+
 }

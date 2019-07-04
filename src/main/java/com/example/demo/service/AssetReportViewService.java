@@ -11,4 +11,6 @@ import java.util.List;
  */
 public interface AssetReportViewService {
     List<AssetReportView> findAll();
+
+    AssetReportView findByMonthsAndUsername(String months,String username);
 }
