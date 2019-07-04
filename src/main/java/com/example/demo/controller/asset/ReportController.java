@@ -29,30 +29,21 @@ public class ReportController {
     public List<AssetReportViewDto> getReportData() {
         List<AssetReportView> assetReportViews = assetReportViewService.findAll();
         List<AssetReportViewDto> assetReportViewDtos = new ArrayList<>();
-        AssetReportViewDto assetReportViewDto = new AssetReportViewDto();
-        assetReportViewDto.setName("净资产");
+        AssetReportViewDto netAssets = new AssetReportViewDto("净资产");
+        AssetReportViewDto netIncome = new AssetReportViewDto("净收入");
+        AssetReportViewDto income = new AssetReportViewDto("收入");
+        AssetReportViewDto expense = new AssetReportViewDto("支出");
         for (AssetReportView assetReportView : assetReportViews) {
-            assetReportViewDto.getData().add(assetReportView.getNetAssets());
+            int months = Integer.parseInt(assetReportView.getMonths().substring(assetReportView.getMonths().lastIndexOf("-") + 1));
+            netAssets.getData()[months - 1] = assetReportView.getNetAssets();
+            netIncome.getData()[months - 1] = assetReportView.getIncome();
+            income.getData()[months - 1] = assetReportView.getIncome();
+            expense.getData()[months - 1] = assetReportView.getExpense();
         }
-        assetReportViewDtos.add(assetReportViewDto);
-        AssetReportViewDto assetReportViewDto1 = new AssetReportViewDto();
-        assetReportViewDto1.setName("净收入");
-        for (AssetReportView assetReportView : assetReportViews) {
-            assetReportViewDto1.getData().add(assetReportView.getNetIncome());
-        }
-        assetReportViewDtos.add(assetReportViewDto1);
-        AssetReportViewDto assetReportViewDto2 = new AssetReportViewDto();
-        assetReportViewDto2.setName("收入");
-        for (AssetReportView assetReportView : assetReportViews) {
-            assetReportViewDto2.getData().add(assetReportView.getIncome());
-        }
-        assetReportViewDtos.add(assetReportViewDto2);
-        AssetReportViewDto assetReportViewDto3 = new AssetReportViewDto();
-        assetReportViewDto3.setName("支出");
-        for (AssetReportView assetReportView : assetReportViews) {
-            assetReportViewDto3.getData().add(assetReportView.getExpense());
-        }
-        assetReportViewDtos.add(assetReportViewDto3);
+        assetReportViewDtos.add(netAssets);
+        assetReportViewDtos.add(netIncome);
+        assetReportViewDtos.add(income);
+        assetReportViewDtos.add(expense);
         return assetReportViewDtos;
     }
 }

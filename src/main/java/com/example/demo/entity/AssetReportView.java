@@ -1,9 +1,12 @@
 package com.example.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
+@JsonInclude(JsonInclude.Include.ALWAYS)
 public class AssetReportView {
 
     @Id

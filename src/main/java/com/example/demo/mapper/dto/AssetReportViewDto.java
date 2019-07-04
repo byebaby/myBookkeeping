@@ -1,11 +1,12 @@
 package com.example.demo.mapper.dto;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class AssetReportViewDto {
     private String name;
-    private List<Double> data = new ArrayList<>(12);
+    private Double[] data = new Double[12];
+
+    public AssetReportViewDto(String name) {
+        this.name = name;
+    }
 
     public String getName() {
         return name;
@@ -15,11 +16,11 @@ public class AssetReportViewDto {
         this.name = name;
     }
 
-    public List<Double> getData() {
+    public Double[] getData() {
         return data;
     }
 
-    public void setData(List<Double> data) {
+    public void setData(Double[] data) {
         this.data = data;
     }
 }
