@@ -43,6 +43,6 @@ public class AssetDetailServiceImpl implements AssetDetailService {
 
     @Override
     public List<AssetDetail> findAllByAssetMain(AssetMain assetMain) {
-        return assetDetailDao.findAllByAssetMain(assetMain);
+        return assetDetailDao.findAllByAssetMainOrderByTypeDesc(assetMain);
     }
 }

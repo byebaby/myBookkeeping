@@ -17,55 +17,42 @@
                 events: {
                     drillup: function (e) {
                         // 上钻回调事件
-                        console.log(e.seriesOptions);
+                        var chart = this;
+                        if (Bee.StringUtils.contains(chart.title.textStr, "年度资产")) {
+                            chart.setTitle({text: "总资产报表"});
+                        } else if (Bee.StringUtils.contains(chart.title.textStr, "月度资产")) {
+                            chart.setTitle({text: chart.title.textStr.substring(0, 4) + "年度资产报表"});
+                        }
                     },
                     drilldown: function (e) {
-
                         if (!e.seriesOptions) {
-                            var chart = this,
-                                drilldowns = {
-                                    "6月": {
-                                        name: '6月',
-                                        data: [
-                                            ['Cows', 2],
-                                            ['Sheep', 3]
-                                        ]
-                                    },
-                                    'Fruits': {
-                                        name: 'Fruits',
-                                        data: [
-                                            ['Apples', 5],
-                                            ['Oranges', 7],
-                                            ['Bananas', 2]
-                                        ]
-                                    },
-                                    'Cars': {
-                                        name: 'Cars',
-                                        data: [
-                                            ['Toyota', 1],
-                                            ['Volkswagen', 2],
-                                            ['Opel', 5]
-                                        ]
-                                    }
-                                },
-                                series = drilldowns[e.point.name];
-                            chart.showLoading('Simulating Ajax ...');
-                            var months = e.point.name.substring(0, e.point.name.length - 1);
-                            $.getJSON('/asset/getMonthsReportData?months=' + chart.title.textStr.substring(0, 4) + "-" + (months.length === 1 ? "0" + months : months), function (data) {
-                                console.log(data);
-                            });
-                            console.log(chart.title);
-
-                            setTimeout(function () {
-                                chart.hideLoading();
-                                chart.addSeriesAsDrilldown(e.point, series);
-                            }, 1000);
+                            var chart = this;
+                            if (Bee.StringUtils.contains(chart.title.textStr, "总资产")) {
+                                chart.showLoading('数据加载中 ...');
+                                var year = e.point.name.substring(0, 4);
+                                $.getJSON('/asset/getYearReportData?year=' + year, function (data) {
+                                    chart.hideLoading();
+                                    chart.addSeriesAsDrilldown(e.point, data);
+                                    chart.setTitle({text: year + "年度资产报表"});
+                                });
+                            } else if (Bee.StringUtils.contains(chart.title.textStr, "年度资产")) {
+                                chart.showLoading('数据加载中 ...');
+                                var months = e.point.name.substring(0, e.point.name.length - 1);
+                                $.getJSON('/asset/getMonthsReportData?yearMonths=' + chart.title.textStr.substring(0, 4) + "-" + (months.length === 1 ? "0" + months : months), function (data) {
+                                    chart.hideLoading();
+                                    chart.addSeriesAsDrilldown(e.point, data);
+                                    chart.setTitle({text: data.name + "月度资产报表"});
+                                });
+                            }
                         }
                     }
                 }
             },
             title: {
-                text: '2019年度资产报表'
+                text: '总资产报表'
+            },
+            lang: {
+                drillUpText: '返回上一级'
             },
             xAxis: {
                 type: 'category'
@@ -87,14 +74,15 @@
                 shared: true,
                 useHTML: true
             },
-
             plotOptions: {
                 column: {
-                    borderWidth: 0
+                    borderWidth: 0,
+                    dataLabels: {
+                        enabled: true
+                    }
                 }
-            },
-            series: [],
 
+            },
             responsive: {
                 rules: [{
                     condition: {
@@ -110,7 +98,7 @@
                 }]
             }
         };
-        $.getJSON('/asset/getReportData', function (data) {
+        $.getJSON('/asset/getAllReportData', function (data) {
             options.series = data;
             var chart = Highcharts.chart('container', options);
         });

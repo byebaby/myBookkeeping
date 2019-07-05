@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface AssetDetailDao extends JpaRepository<AssetDetail, Long> {
-    List<AssetDetail> findAllByAssetMain(AssetMain assetMain);
+    List<AssetDetail> findAllByAssetMainOrderByTypeDesc(AssetMain assetMain);
 }

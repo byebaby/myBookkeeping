@@ -6,8 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-@JsonInclude(JsonInclude.Include.ALWAYS)
-public class AssetReportView {
+@JsonInclude()
+public class AssetYearReportView {
 
     @Id
     private Long id;
