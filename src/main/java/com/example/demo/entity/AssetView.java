@@ -11,9 +11,9 @@ public class AssetView {
     private Integer userId;
     private String username;
     private LocalDate createDate;
-    private Integer assets;
-    private Integer debt;
-    private Integer income;
+    private Double assets;
+    private Double debt;
+    private Double income;
 
 
     public Long getId() {
@@ -24,11 +24,11 @@ public class AssetView {
         this.id = id;
     }
 
-    public int getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
@@ -48,27 +48,27 @@ public class AssetView {
         this.createDate = createDate;
     }
 
-    public int getAssets() {
+    public Double getAssets() {
         return assets;
     }
 
-    public void setAssets(int assets) {
+    public void setAssets(Double assets) {
         this.assets = assets;
     }
 
-    public int getDebt() {
+    public Double getDebt() {
         return debt;
     }
 
-    public void setDebt(int debt) {
+    public void setDebt(Double debt) {
         this.debt = debt;
     }
 
-    public int getIncome() {
+    public Double getIncome() {
         return income;
     }
 
-    public void setIncome(int income) {
+    public void setIncome(Double income) {
         this.income = income;
     }
 }

@@ -13,4 +13,6 @@ public interface AssetYearReportViewService {
     List<AssetYearReportView> findAll();
 
     AssetYearReportView findByMonthsAndUsername(String months, String username);
+    List<AssetYearReportView> findByYearAndUsername(String year, String username);
+
 }

@@ -10,6 +10,6 @@ import java.util.List;
  * @date 2019-07-06
  */
 public interface AssetAllReportViewService {
-    List<AssetAllReportView> findAll();
+    List<AssetAllReportView> findAllByUsername(String username);
 
 }

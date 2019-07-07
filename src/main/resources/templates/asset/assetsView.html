@@ -20,6 +20,8 @@
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-xs" lay-event="del">删除</a>
 </script>
+
+
 <script th:inline="none">
     layui.use(['form', 'jquery', 'layer', 'table'], function () {
         var form = layui.form;
@@ -35,9 +37,9 @@
             , cols: [[ //表头
                 {field: 'username', title: '用户名'}
                 , {field: 'createDate', title: '创建日期', sort: true}
-                , {field: 'assets', title: '资产', sort: true}
-                , {field: 'debt', title: '负债', sort: true}
-                , {field: 'income', title: '收入', sort: true}
+                , {field: 'assets', title: '资产', sort: true, templet: '<div> {{ d.assets.toFixed(2)}}</div>'}
+                , {field: 'debt', title: '负债', sort: true, templet: '<div> {{ d.debt.toFixed(2)}}</div>'}
+                , {field: 'income', title: '收入', sort: true, templet: '<div> {{ d.income.toFixed(2)}}</div>'}
                 , {fixed: 'right', align: 'center', toolbar: '#linetool'} //这里的toolbar值是模板元素的选择器
 
             ]],

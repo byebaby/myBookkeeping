@@ -2,10 +2,7 @@ package com.example.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
 public class AssetDetail extends BaseEntity {
@@ -14,6 +11,7 @@ public class AssetDetail extends BaseEntity {
     private Long id;
     private String type;
     private String message;
+    @Column(columnDefinition = "decimal(10,2)")
     private double amount;
     @ManyToOne
     @JsonIgnoreProperties("assetDetail")

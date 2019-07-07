@@ -32,5 +32,10 @@ public class AssetYearReportViewServiceImpl implements AssetYearReportViewServic
     public AssetYearReportView findByMonthsAndUsername(String months, String username) {
         return assetYearReportViewDao.findByMonthsAndUsername(months,username);
     }
+
+    @Override
+    public List<AssetYearReportView> findByYearAndUsername(String year, String username) {
+        return assetYearReportViewDao.findAllByMonthsLikeAndUsername(year,username);
+    }
 }
 

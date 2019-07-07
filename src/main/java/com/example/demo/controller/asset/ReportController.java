@@ -31,13 +31,13 @@ public class ReportController {
 
     @GetMapping("/asset/report")
     public String report() {
-        return "/asset/report";
+        return "asset/report";
     }
 
     @GetMapping("/asset/getAllReportData")
     @ResponseBody
     public List<AssetReportViewDto> getAllReportData() {
-        List<AssetAllReportView> assetAllReportViews = assetAllReportViewService.findAll();
+        List<AssetAllReportView> assetAllReportViews = assetAllReportViewService.findAllByUsername(SecurityUtils.getSubject().getPrincipal().toString());
         List<AssetReportViewDto> assetReportViewDtos = new ArrayList<>();
         AssetReportViewDto netAssets = new AssetReportViewDto("净资产");
         AssetReportViewDto netIncome = new AssetReportViewDto("净收入");
@@ -60,13 +60,14 @@ public class ReportController {
     @GetMapping("/asset/getYearReportData")
     @ResponseBody
     public List<AssetReportViewDto> getYearReportData(String year) {
-        List<AssetYearReportView> assetYearReportViews = assetYearReportViewService.findAll();
+        List<AssetYearReportView> assetYearReportViews = assetYearReportViewService.findByYearAndUsername(year + "%", SecurityUtils.getSubject().getPrincipal().toString());
         List<AssetReportViewDto> assetReportViewDtos = new ArrayList<>();
         AssetReportViewDto netAssets = new AssetReportViewDto("净资产");
         AssetReportViewDto netIncome = new AssetReportViewDto("净收入");
         AssetReportViewDto income = new AssetReportViewDto("收入");
         AssetReportViewDto expense = new AssetReportViewDto("支出");
         for (int i = 1; i < 13; i++) {
+            boolean flag = false;
             for (AssetYearReportView assetYearReportView : assetYearReportViews) {
                 int months = Integer.parseInt(assetYearReportView.getMonths().substring(assetYearReportView.getMonths().lastIndexOf("-") + 1));
                 if (i == months) {
@@ -74,13 +75,16 @@ public class ReportController {
                     netIncome.add(i + "月", assetYearReportView.getNetIncome(), true);
                     income.add(i + "月", assetYearReportView.getIncome(), true);
                     expense.add(i + "月", assetYearReportView.getExpense(), true);
+                    flag = true;
                     break;
                 }
             }
-//            netAssets.add(i + "月", null, null);
-//            netIncome.add(i + "月", null, null);
-//            income.add(i + "月", null, null);
-//            expense.add(i + "月", null, null);
+            if (!flag) {
+                netAssets.add(i + "月", null, null);
+                netIncome.add(i + "月", null, null);
+                income.add(i + "月", null, null);
+                expense.add(i + "月", null, null);
+            }
         }
         assetReportViewDtos.add(netAssets);
         assetReportViewDtos.add(netIncome);
@@ -95,7 +99,7 @@ public class ReportController {
         AssetYearReportView assetYearReportView = assetYearReportViewService.findByMonthsAndUsername(yearMonths, SecurityUtils.getSubject().getPrincipal().toString());
         AssetMain assetMain = new AssetMain();
         assetMain.setId(assetYearReportView.getId());
-        List<AssetDetail> assetDetails = assetDetailService.findAllByAssetMain(assetMain);
+        List<AssetDetail> assetDetails = assetDetailService.findAllByAssetMainOrderByTypeDesc(assetMain);
         AssetReportViewDto assetReportViewDto = new AssetReportViewDto(yearMonths);
         for (AssetDetail assetDetail : assetDetails) {
             assetReportViewDto.add(assetDetail.getType() + "-" + assetDetail.getMessage(), assetDetail.getAmount(), false);

@@ -24,7 +24,7 @@ public class AssetAllReportViewServiceImpl implements AssetAllReportViewService 
     }
 
     @Override
-    public List<AssetAllReportView> findAll() {
-        return assetallreportviewDao.findAll();
+    public List<AssetAllReportView> findAllByUsername(String username) {
+        return assetallreportviewDao.findAllByUsername(username);
     }
 }

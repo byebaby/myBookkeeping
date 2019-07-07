@@ -32,7 +32,11 @@
                                 var year = e.point.name.substring(0, 4);
                                 $.getJSON('/asset/getYearReportData?year=' + year, function (data) {
                                     chart.hideLoading();
-                                    chart.addSeriesAsDrilldown(e.point, data);
+                                    $.each(data, function (i, val) {
+                                        val['color']=Highcharts.getOptions().colors[i];
+                                        chart.addSingleSeriesAsDrilldown(e.point, val);
+                                    });
+                                    chart.applyDrilldown();
                                     chart.setTitle({text: year + "年度资产报表"});
                                 });
                             } else if (Bee.StringUtils.contains(chart.title.textStr, "年度资产")) {
@@ -60,6 +64,17 @@
             yAxis: {
                 title: {
                     text: '金额'
+                },
+                stackLabels: {
+                    formatter: function () {
+                        //this.x指的是x轴坐标的索引
+                        if (dataFlag[this.x]) {
+                            //margin-bottom属性在这里不起作用，所以，用margin-top值取负值的方式。
+                            return "<div style='margin-top:-15px'>" + this.total + "</div>";
+                        } else {
+                            return this.total;
+                        }
+                    }
                 }
             },
             credits: {
@@ -78,7 +93,8 @@
                 column: {
                     borderWidth: 0,
                     dataLabels: {
-                        enabled: true
+                        enabled: true,
+                        allowOverlap: true
                     }
                 }
 
@@ -96,7 +112,8 @@
                         }
                     }
                 }]
-            }
+            },
+
         };
         $.getJSON('/asset/getAllReportData', function (data) {
             options.series = data;

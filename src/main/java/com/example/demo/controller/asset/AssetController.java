@@ -43,7 +43,7 @@ public class AssetController {
      */
     @GetMapping("/asset/defaultModel")
     public String defaultModel() {
-        return "/asset/defaultModel";
+        return "asset/defaultModel";
     }
 
     /**
@@ -93,7 +93,7 @@ public class AssetController {
      */
     @GetMapping("/asset/assetsView")
     public String assetsView() {
-        return "/asset/assetsView";
+        return "asset/assetsView";
     }
 
 
@@ -134,7 +134,7 @@ public class AssetController {
         if (dataId != null) {
             modelMap.addAttribute("dataId", dataId);
         }
-        return "/asset/assetsForm";
+        return "asset/assetsForm";
     }
 
     /**
@@ -168,7 +168,7 @@ public class AssetController {
     @ResponseBody
     public Json getUserModelData(Long id) {
         if (id == null) {
-            List<AssetModel> assetModels = assetModelService.findByUsername(SecurityUtils.getSubject().getPrincipal().toString());
+            List<AssetModel> assetModels = assetModelService.findByUserNameOrderByTypeDesc(SecurityUtils.getSubject().getPrincipal().toString());
             List<AccountingTipsDto> dtos = accountingTipsMapper.toDTOIgnoreId(assetModels);
             AssetMain assetMain = new AssetMain();
             assetMain.setAssetDetail(accountingTipsMapper.toAssetDetail(dtos));

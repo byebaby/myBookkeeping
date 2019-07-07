@@ -11,5 +11,5 @@ public interface AssetDetailService {
 
     void delAll(List<AssetDetail> assetDetails);
 
-    List<AssetDetail> findAllByAssetMain(AssetMain assetMain);
+    List<AssetDetail> findAllByAssetMainOrderByTypeDesc(AssetMain assetMain);
 }
