@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Controller
@@ -146,9 +147,17 @@ public class AssetController {
     @PostMapping("/asset/saveAssetsFormData")
     @ResponseBody
     public Json saveAssetsFormData(@RequestBody AssetMain assetMain) {
-        assetMain.setUserId(userService.findUserByName(SecurityUtils.getSubject().getPrincipal().toString()).getId());
-        assetMainService.save(assetMain);
-        return Json.succ("saveDetail");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM");
+        String date = dtf.format(assetMain.getCreateDate());
+        List<AssetMain> assetMains = assetMainService.findAllByCreateDateLikeMonths(date + "%");
+        if (assetMains.size() == 0 || assetMains.get(0).getCreatedDate().equals(assetMain.getCreatedDate())) {
+            assetMain.setUserId(userService.findUserByName(SecurityUtils.getSubject().getPrincipal().toString()).getId());
+            assetMainService.save(assetMain);
+            return Json.succ("saveDetail");
+        } else {
+            return Json.fail("saveDetail", "该月已存在数据");
+        }
+
     }
 
     @PostMapping("/asset/deleteAssetsFormData")

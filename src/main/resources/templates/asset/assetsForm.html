@@ -179,12 +179,12 @@
                                     parent.layer.close(index); //再执行关闭
                                     parent.layui.table.reload('table');
                                 } else {
-                                    layer.msg("保存失败" + object.message);
+                                    layer.msg("保存失败: " + object.msg);
                                 }
                             }
                         });
                     } else {
-                        layer.msg("保存失败" + object.message);
+                        layer.msg("保存失败: " + object.msg);
                     }
                 }
             });

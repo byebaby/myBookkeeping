@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 
 /**
  * @author cyb
@@ -26,6 +28,11 @@ public class AssetMainServiceImpl implements AssetMainService {
     @Override
     public AssetMain findById(Long id) {
         return assetMainDao.findById(id).orElse(null);
+    }
+
+    @Override
+    public List<AssetMain> findAllByCreateDateLikeMonths(String date) {
+        return assetMainDao.findAllByCreateDateLikeMonths(date);
     }
 
     @Transactional
