@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface AssetMainService {
     AssetMain findById(Long id);
-    List<AssetMain> findAllByCreateDateLikeMonths(String date);
+    List<AssetMain> findAllByUserIdAndCreateDateLike(Long id,String date);
     void save(AssetMain assetMain);
 
     void deleteById(Long id);

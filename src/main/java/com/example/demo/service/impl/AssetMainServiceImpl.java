@@ -31,8 +31,8 @@ public class AssetMainServiceImpl implements AssetMainService {
     }
 
     @Override
-    public List<AssetMain> findAllByCreateDateLikeMonths(String date) {
-        return assetMainDao.findAllByCreateDateLikeMonths(date);
+    public List<AssetMain> findAllByUserIdAndCreateDateLike(Long id,String date) {
+        return assetMainDao.findAllByUserIdAndCreateDateLike(id,date);
     }
 
     @Transactional

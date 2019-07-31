@@ -149,7 +149,8 @@ public class AssetController {
     public Json saveAssetsFormData(@RequestBody AssetMain assetMain) {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM");
         String date = dtf.format(assetMain.getCreateDate());
-        List<AssetMain> assetMains = assetMainService.findAllByCreateDateLikeMonths(date + "%");
+        Long id = userService.findUserByName(SecurityUtils.getSubject().getPrincipal().toString()).getId();
+        List<AssetMain> assetMains = assetMainService.findAllByUserIdAndCreateDateLike(id, date + "%");
         if (assetMains.size() == 0 || assetMains.get(0).getCreatedDate().equals(assetMain.getCreatedDate())) {
             assetMain.setUserId(userService.findUserByName(SecurityUtils.getSubject().getPrincipal().toString()).getId());
             assetMainService.save(assetMain);

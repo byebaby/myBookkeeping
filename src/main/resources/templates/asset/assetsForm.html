@@ -144,9 +144,26 @@
         //监听提交
         form.on('submit(form)', function (data) {
             var flag = true;
+            function isFloat( str ) {
+                for(var i=0;i<str.length;i++)  {
+                    if ((str.charAt(i)<"0" || str.charAt(i)>"9")&& str.charAt(i) != '.'){
+                        return false;
+                    }
+                }
+                return true;
+            }
+            if (table.cache.table.length === 0) {
+                layer.msg('没有数据,请检查');
+                return false;
+            }
             $(table.cache.table).each(function () {
                 if (Bee.StringUtils.isBlank($(this).attr("type")) || Bee.StringUtils.isBlank($(this).attr("message")) || Bee.StringUtils.isBlank($(this).attr("amount"))) {
                     layer.msg('数据未填写完整,请检查');
+                    flag = false;
+                    return false;
+                }
+                if (!isFloat($(this).attr("amount"))) {
+                    layer.msg('金额不是数字,请检查');
                     flag = false;
                     return false;
                 }
