@@ -1,6 +1,6 @@
-package com.example.demo.service;
+package com.example.demo.service.asset;
 
-import com.example.demo.entity.AssetView;
+import com.example.demo.entity.asset.AssetView;
 
 import java.util.List;
 

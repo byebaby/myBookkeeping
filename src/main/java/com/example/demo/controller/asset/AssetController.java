@@ -1,12 +1,16 @@
 package com.example.demo.controller.asset;
 
-import com.example.demo.entity.AssetDetail;
-import com.example.demo.entity.AssetMain;
-import com.example.demo.entity.AssetModel;
-import com.example.demo.entity.AssetView;
+import com.example.demo.entity.asset.AssetDetail;
+import com.example.demo.entity.asset.AssetMain;
+import com.example.demo.entity.asset.AssetModel;
+import com.example.demo.entity.asset.AssetView;
 import com.example.demo.mapper.AccountingTipsMapper;
 import com.example.demo.mapper.dto.AccountingTipsDto;
 import com.example.demo.service.*;
+import com.example.demo.service.asset.AssetDetailService;
+import com.example.demo.service.asset.AssetMainService;
+import com.example.demo.service.asset.AssetModelService;
+import com.example.demo.service.asset.AssetViewService;
 import com.example.demo.vo.Json;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Controller;

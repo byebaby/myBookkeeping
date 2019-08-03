@@ -17,6 +17,30 @@ import java.util.List;
 
 public class Generate {
 
+    private static void fileGenerate(String ftlPath, String DaoftlName, String ServiceftlName, String ServicefilePath, String ServicepackgeName,
+                                     String DaofilePath, String DaopackgeName, String ModelfilePath, String ModelpackgeName) throws IOException, TemplateException {
+        List<Attr> modellist = new ArrayList<>(); //需要生成的实体对象集合
+        for (String entityName : GenerateUtil.getFileList(System.getProperty("user.dir") + ModelfilePath)) {
+            Attr attr1 = new Attr(entityName, "Generate");
+            if (!attr1.getClassName().contains("Base")) {
+                modellist.add(attr1);
+            }
+        }
+        GenerateUtil gt = new GenerateUtil("cyb", ftlPath);
+        gt.GenerateDao(DaoftlName, DaofilePath, DaopackgeName, ModelpackgeName, modellist);
+        gt.GenerateService(ServiceftlName, ServicefilePath, ServicepackgeName, DaopackgeName, ModelpackgeName, modellist);
+        for (String directoryName : GenerateUtil.getDirectoryList(System.getProperty("user.dir") + ModelfilePath)) {
+            ServicefilePath = ServicefilePath + "\\\\" + directoryName;
+            ServicepackgeName = ServicepackgeName + "." + directoryName;
+            DaofilePath = DaofilePath + "\\\\" + directoryName;
+            DaopackgeName = DaopackgeName + "." + directoryName;
+            ModelfilePath = ModelfilePath + "\\\\" + directoryName;
+            ModelpackgeName = ModelpackgeName + "." + directoryName;
+            fileGenerate(ftlPath, DaoftlName, ServiceftlName, ServicefilePath, ServicepackgeName,
+                    DaofilePath, DaopackgeName, ModelfilePath, ModelpackgeName);
+        }
+    }
+
     public static void main(String[] args) throws IOException, TemplateException, ParserConfigurationException, SAXException {
         String ftlPath = ""; //模板路径
 
@@ -24,7 +48,7 @@ public class Generate {
         String ModelftlName = "";  //model模板名称
         String ModelfilePath = ""; //模板路径
         String ModelpackgeName = "";//模板包名
-        List<Attr> modellist = new ArrayList<>(); //需要生成的实体对象集合
+
 
         // dao参数
         String DaoftlName = ""; //dao模板名称
@@ -64,39 +88,10 @@ public class Generate {
         //获取对应model参数
         Node modelnode = rootElement.getElementsByTagName("models").item(0);
         ModelfilePath = ((Element) modelnode).getAttribute("path");
-        params = modelnode.getChildNodes();
         ModelpackgeName = modelnode.getChildNodes().item(1).getFirstChild().getNodeValue();
 
-        for (String entityName : GenerateUtil.getFileList(System.getProperty("user.dir") + ModelfilePath)) {
-            Attr attr1 = new Attr(entityName, "Generate");
-            if (!attr1.getClassName().contains("Base")) {
-                modellist.add(attr1);
-            }
+        //生成dao,service文件
+        fileGenerate(ftlPath, DaoftlName, ServiceftlName, ServicefilePath, ServicepackgeName, DaofilePath, DaopackgeName, ModelfilePath, ModelpackgeName);
 
-        }
-//        for (int i = 0; i < params.getLength(); i++) {
-//            Node node = params.item(i);
-//            if (node.getNodeType() != Node.ELEMENT_NODE) continue;
-//            Element e = (Element) node;
-//            if (e.getNodeName().trim().equals("packageName")) ModelpackgeName = node.getFirstChild().getNodeValue();
-//            if (e.getNodeName().trim().equals("model")) {
-//                Attr attr = new Attr();
-//                NodeList attrnode = node.getChildNodes();
-//                for (int j = 0; j < attrnode.getLength(); j++) {
-//                    Node anode = attrnode.item(j);
-//                    if (anode.getNodeType() != Node.ELEMENT_NODE) continue;
-//                    Element ae = (Element) anode;
-//                    if (ae.getTagName().trim().equals("className"))
-//                        attr.setClassName(anode.getFirstChild().getNodeValue());
-//                    if (ae.getTagName().trim().equals("desc")) attr.setDesc(anode.getFirstChild().getNodeValue());
-//                }
-//                modellist.add(attr);
-//            }
-//        }
-        GenerateUtil gt = new GenerateUtil("cyb", ftlPath);
-
-        gt.GenerateDao(DaoftlName, DaofilePath, DaopackgeName, ModelpackgeName, modellist);
-        gt.GenerateService(ServiceftlName, ServicefilePath, ServicepackgeName, DaopackgeName, ModelpackgeName, modellist);
-//        gt.GenerateModel(ModelftlName, ModelfilePath, ModelpackgeName, modellist);
     }
 }

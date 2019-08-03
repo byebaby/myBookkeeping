@@ -1,8 +1,8 @@
-package com.example.demo.service.impl;
+package com.example.demo.service.asset.impl;
 
-import com.example.demo.dao.AssetModelDao;
-import com.example.demo.entity.AssetModel;
-import com.example.demo.service.AssetModelService;
+import com.example.demo.dao.asset.AssetModelDao;
+import com.example.demo.entity.asset.AssetModel;
+import com.example.demo.service.asset.AssetModelService;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Service;
 

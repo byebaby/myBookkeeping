@@ -1,8 +1,8 @@
-package com.example.demo.service.impl;
+package com.example.demo.service.asset.impl;
 
-import com.example.demo.dao.AssetYearReportViewDao;
-import com.example.demo.entity.AssetYearReportView;
-import com.example.demo.service.AssetYearReportViewService;
+import com.example.demo.dao.asset.AssetYearReportViewDao;
+import com.example.demo.entity.asset.AssetYearReportView;
+import com.example.demo.service.asset.AssetYearReportViewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

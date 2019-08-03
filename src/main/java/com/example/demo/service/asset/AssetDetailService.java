@@ -1,7 +1,7 @@
-package com.example.demo.service;
+package com.example.demo.service.asset;
 
-import com.example.demo.entity.AssetDetail;
-import com.example.demo.entity.AssetMain;
+import com.example.demo.entity.asset.AssetDetail;
+import com.example.demo.entity.asset.AssetMain;
 
 import java.time.LocalDate;
 import java.util.List;

@@ -1,13 +1,13 @@
 package com.example.demo.controller.asset;
 
-import com.example.demo.entity.AssetAllReportView;
-import com.example.demo.entity.AssetDetail;
-import com.example.demo.entity.AssetMain;
-import com.example.demo.entity.AssetYearReportView;
+import com.example.demo.entity.asset.AssetAllReportView;
+import com.example.demo.entity.asset.AssetDetail;
+import com.example.demo.entity.asset.AssetMain;
+import com.example.demo.entity.asset.AssetYearReportView;
 import com.example.demo.mapper.dto.AssetReportViewDto;
-import com.example.demo.service.AssetAllReportViewService;
-import com.example.demo.service.AssetDetailService;
-import com.example.demo.service.AssetYearReportViewService;
+import com.example.demo.service.asset.AssetAllReportViewService;
+import com.example.demo.service.asset.AssetDetailService;
+import com.example.demo.service.asset.AssetYearReportViewService;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

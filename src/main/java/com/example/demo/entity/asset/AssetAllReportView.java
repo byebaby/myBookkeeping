@@ -1,4 +1,4 @@
-package com.example.demo.entity;
+package com.example.demo.entity.asset;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -7,17 +7,16 @@ import javax.persistence.Id;
 
 @Entity
 @JsonInclude()
-public class AssetYearReportView {
+public class AssetAllReportView {
 
     @Id
     private Long id;
     private String username;
-    private String months;
+    private String year;
+    private Double income;
     private Double netAssets;
     private Double netIncome;
-    private Double income;
     private Double expense;
-
 
     public Long getId() {
         return id;
@@ -35,12 +34,20 @@ public class AssetYearReportView {
         this.username = username;
     }
 
-    public String getMonths() {
-        return months;
+    public String getYear() {
+        return year;
     }
 
-    public void setMonths(String months) {
-        this.months = months;
+    public void setYear(String year) {
+        this.year = year;
+    }
+
+    public Double getIncome() {
+        return income;
+    }
+
+    public void setIncome(Double income) {
+        this.income = income;
     }
 
     public Double getNetAssets() {
@@ -57,14 +64,6 @@ public class AssetYearReportView {
 
     public void setNetIncome(Double netIncome) {
         this.netIncome = netIncome;
-    }
-
-    public Double getIncome() {
-        return income;
-    }
-
-    public void setIncome(Double income) {
-        this.income = income;
     }
 
     public Double getExpense() {

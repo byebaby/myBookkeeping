@@ -1,7 +1,7 @@
-package com.example.demo.dao;
+package com.example.demo.dao.asset;
 
-import com.example.demo.entity.AssetDetail;
-import com.example.demo.entity.AssetMain;
+import com.example.demo.entity.asset.AssetDetail;
+import com.example.demo.entity.asset.AssetMain;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

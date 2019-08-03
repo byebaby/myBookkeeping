@@ -1,8 +1,8 @@
-package com.example.demo.service.impl;
+package com.example.demo.service.asset.impl;
 
-import com.example.demo.dao.AssetMainDao;
-import com.example.demo.entity.AssetMain;
-import com.example.demo.service.AssetMainService;
+import com.example.demo.dao.asset.AssetMainDao;
+import com.example.demo.entity.asset.AssetMain;
+import com.example.demo.service.asset.AssetMainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -3,7 +3,6 @@ package com.example.demo.controller;
 import com.example.demo.entity.User;
 import com.example.demo.service.UserService;
 import com.example.demo.vo.Json;
-import io.micrometer.core.instrument.util.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
@@ -15,10 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 
 @Controller
@@ -51,16 +48,6 @@ public class LoginController {
     @ResponseBody
     @PostMapping("/register")
     public Json postRegister(String username, String password) {
-        String pattern1 = "^\\d+\\d+\\d$";  // '用户名不能全为数字';
-        String pattern2 = "[A-Za-z0-9\\-\\u4e00-\\u9fa5]+";  //'用户名不能有特殊字符
-        String pattern4 = "^[\\S]{6,12}$"; // '密码必须6到12位，且不能出现空格'
-        if (StringUtils.isBlank(username) ||
-                StringUtils.isBlank(password) ||
-                userService.findUserByName(username) != null ||
-                Pattern.matches(pattern1, username) || !Pattern.matches(pattern2, username) ||
-                !Pattern.matches(pattern4, password)) {
-            return Json.succ("register", "注册失败").code(Json.DEFAULT_FAIL_CODE);
-        }
         User user = new User();
         user.setUsername(username);
         Map map = encryptPassword(password);

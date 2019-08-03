@@ -1,4 +1,6 @@
-package com.example.demo.entity;
+package com.example.demo.entity.asset;
+
+import com.example.demo.entity.BaseEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

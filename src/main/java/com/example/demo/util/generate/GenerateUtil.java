@@ -160,6 +160,24 @@ public class GenerateUtil {
         return list;
     }
 
+    /*
+     * 读取指定路径下的目录名
+     */
+    public static List<String> getDirectoryList(String path) {
+        File file = new File(path);
+        List<String> list = new ArrayList<>();
+        File[] fileList = file.listFiles();
+
+        assert fileList != null;
+        for (int i = 0; i < fileList.length; i++) {
+            if (fileList[i].isDirectory()) {
+                String fileName = fileList[i].getName();
+                list.add(fileName);
+            }
+        }
+        return list;
+    }
+
     //输出到文件
     public static void printFile(Map<String, Object> root, Template template, String filePath, String fileName) throws IOException, TemplateException {
         String path = System.getProperty("user.dir") + filePath;

@@ -1,6 +1,6 @@
-package com.example.demo.dao;
+package com.example.demo.dao.asset;
 
-import com.example.demo.entity.AssetYearReportView;
+import com.example.demo.entity.asset.AssetYearReportView;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

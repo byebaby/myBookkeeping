@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-abstract class BaseEntity {
+public abstract class BaseEntity {
     //    @CreatedBy
 //    private User createdBy;// 创建人
 //    @LastModifiedBy
