@@ -1,6 +1,6 @@
 package com.example.demo.mapper.dto;
 
-public class AccountingTipsDto {
+public class AccountingModelDto {
     private Long id;
     private String type;
     private String message;

@@ -4,8 +4,8 @@ import com.example.demo.entity.asset.AssetDetail;
 import com.example.demo.entity.asset.AssetMain;
 import com.example.demo.entity.asset.AssetModel;
 import com.example.demo.entity.asset.AssetView;
-import com.example.demo.mapper.AccountingTipsMapper;
-import com.example.demo.mapper.dto.AccountingTipsDto;
+import com.example.demo.mapper.AccountingModelMapper;
+import com.example.demo.mapper.dto.AccountingModelDto;
 import com.example.demo.service.*;
 import com.example.demo.service.asset.AssetDetailService;
 import com.example.demo.service.asset.AssetMainService;
@@ -30,13 +30,13 @@ public class AssetController {
     private final AssetViewService assetViewService;
     private final AssetDetailService assetDetailService;
     private final AssetModelService assetModelService;
-    private final AccountingTipsMapper accountingTipsMapper;
+    private final AccountingModelMapper accountingModelMapper;
 
-    public AssetController(AssetViewService assetViewService, AssetModelService assetModelService, AccountingTipsMapper accountingTipsMapper, AssetMainService assetMainService, UserService userService, AssetDetailService assetDetailService) {
+    public AssetController(AssetViewService assetViewService, AssetModelService assetModelService, AccountingModelMapper accountingModelMapper, AssetMainService assetMainService, UserService userService, AssetDetailService assetDetailService) {
         this.assetMainService = assetMainService;
         this.assetViewService = assetViewService;
         this.assetModelService = assetModelService;
-        this.accountingTipsMapper = accountingTipsMapper;
+        this.accountingModelMapper = accountingModelMapper;
         this.userService = userService;
         this.assetDetailService = assetDetailService;
     }
@@ -60,7 +60,7 @@ public class AssetController {
     @ResponseBody
     public Json getModelData() {
         List<AssetModel> tipsList = assetModelService.findByUsername(SecurityUtils.getSubject().getPrincipal().toString());
-        List<AccountingTipsDto> dtos = accountingTipsMapper.toDTO(tipsList);
+        List<AccountingModelDto> dtos = accountingModelMapper.toDTO(tipsList);
         return Json.succ("viewData", dtos).data("count", dtos.size());
     }
 
@@ -165,6 +165,11 @@ public class AssetController {
 
     }
 
+    /**
+     * 删除用户资产明细数据
+     * @param assetDetails
+     * @return
+     */
     @PostMapping("/asset/deleteAssetsFormData")
     @ResponseBody
     public Json deleteAssetsFormData(@RequestBody List<AssetDetail> assetDetails) {
@@ -183,9 +188,9 @@ public class AssetController {
     public Json getUserModelData(Long id) {
         if (id == null) {
             List<AssetModel> assetModels = assetModelService.findByUserNameOrderByTypeDesc(SecurityUtils.getSubject().getPrincipal().toString());
-            List<AccountingTipsDto> dtos = accountingTipsMapper.toDTOIgnoreId(assetModels);
+            List<AccountingModelDto> dtos = accountingModelMapper.toDTOIgnoreId(assetModels);
             AssetMain assetMain = new AssetMain();
-            assetMain.setAssetDetail(accountingTipsMapper.toAssetDetail(dtos));
+            assetMain.setAssetDetail(accountingModelMapper.toAssetDetail(dtos));
             return Json.succ("viewData", assetMain).data("count", assetMain.getAssetDetail().size());
         } else {
             AssetMain assetMain = assetMainService.findById(id);
