@@ -43,8 +43,9 @@
     <select name="type" lay-verify="required" lay-filter="select">
         <option value=""></option>
         <option value="资产" [({{# if(d.type=="资产" ){ }} selected {{# } }})]>资产</option>
-        <option value="负债" [({{# if(d.type=="负债") { }} selected {{# } }})]>负债</option>
+        <option value="负债" [({{# if(d.type=="负债" ){ }} selected {{# } }})]>负债</option>
         <option value="收入" [({{# if(d.type=="收入" ){ }} selected {{# } }})]>收入</option>
+        <option value="支出" [({{# if(d.type=="支出" ){ }} selected {{# } }})]>支出</option>
     </select>
 </script>
 

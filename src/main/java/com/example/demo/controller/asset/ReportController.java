@@ -97,13 +97,18 @@ public class ReportController {
     @ResponseBody
     public AssetReportViewDto getMonthsReportData(String yearMonths) {
         AssetYearReportView assetYearReportView = assetYearReportViewService.findByMonthsAndUsername(yearMonths, SecurityUtils.getSubject().getPrincipal().toString());
+        double expenses = assetYearReportView.getExpense() != null ? assetYearReportView.getExpense() : 0;
         AssetMain assetMain = new AssetMain();
         assetMain.setId(assetYearReportView.getId());
         List<AssetDetail> assetDetails = assetDetailService.findAllByAssetMainOrderByTypeDesc(assetMain);
         AssetReportViewDto assetReportViewDto = new AssetReportViewDto(yearMonths);
         for (AssetDetail assetDetail : assetDetails) {
             assetReportViewDto.add(assetDetail.getType() + "-" + assetDetail.getMessage(), assetDetail.getAmount(), false);
+            if (assetDetail.getType().equals("支出")) {
+                expenses -= assetDetail.getAmount();
+            }
         }
+        assetReportViewDto.add("支出-日常消费", Double.valueOf(String.format("%.2f", expenses)), false);
         return assetReportViewDto;
     }
 
