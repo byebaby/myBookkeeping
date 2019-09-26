@@ -31,7 +31,6 @@ public class LoginController {
     @ResponseBody
     @PostMapping("/checkname")
     public Json checkName(String username) {
-
         if (userService.findUserByName(username) != null) {
             return Json.succ("checkname", "该用户名已被占用!").code(Json.DEFAULT_FAIL_CODE);
         } else {
@@ -63,7 +62,6 @@ public class LoginController {
         int hashIterations = 3;//加密3次
         String salt = new SecureRandomNumberGenerator().nextBytes().toBase64();
         String result = new SimpleHash(hashAlgorithmName, password, salt, hashIterations).toHex();
-
         hashMap.put("salt", salt);
         hashMap.put("saltPassword", result);
         return hashMap;
@@ -77,7 +75,6 @@ public class LoginController {
     @PostMapping("/login")
     @ResponseBody
     public Json postLogin(String username, String password) {
-
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
         Subject currentUser = SecurityUtils.getSubject();
         currentUser.login(token);
