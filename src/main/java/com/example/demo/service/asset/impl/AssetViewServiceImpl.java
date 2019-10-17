@@ -17,7 +17,7 @@ public class AssetViewServiceImpl implements AssetViewService {
 
     @Override
     public List<AssetView> findViewDataByUserName(String userName) {
-        return accountingViewDao.findByusernameOrOrderByCreateDate(userName);
+        return accountingViewDao.findByusernameOrderByCreateDate(userName);
     }
 
 
