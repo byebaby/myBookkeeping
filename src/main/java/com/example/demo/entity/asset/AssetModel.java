@@ -14,6 +14,7 @@ public class AssetModel extends BaseEntity {
     private String userName;
     private String type;
     private String message;
+    private Integer orderNum;
 
     public Long getId() {
         return id;
@@ -45,5 +46,13 @@ public class AssetModel extends BaseEntity {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public Integer getOrderNum() {
+        return orderNum;
+    }
+
+    public void setOrderNum(Integer orderNum) {
+        this.orderNum = orderNum;
     }
 }

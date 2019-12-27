@@ -4,6 +4,7 @@ public class AccountingModelDto {
     private Long id;
     private String type;
     private String message;
+    private Integer orderNum;
 
     public Long getId() {
         return id;
@@ -29,4 +30,11 @@ public class AccountingModelDto {
         this.message = message;
     }
 
+    public Integer getOrderNum() {
+        return orderNum;
+    }
+
+    public void setOrderNum(Integer orderNum) {
+        this.orderNum = orderNum;
+    }
 }

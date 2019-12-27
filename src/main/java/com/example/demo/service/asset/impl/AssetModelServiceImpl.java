@@ -18,8 +18,8 @@ public class AssetModelServiceImpl implements AssetModelService {
 
 
     @Override
-    public List<AssetModel> findByUserNameOrderByTypeDesc(String username) {
-        return accountingTipsDao.findByUserNameOrderByTypeDesc(username);
+    public List<AssetModel> findByUserNameOrderByOrderNumAsc(String username) {
+        return accountingTipsDao.findByUserNameOrderByOrderNumAsc(username);
     }
     @Override
     public List<AssetModel> findByUsername(String username) {

@@ -71,6 +71,7 @@
                         {type: 'checkbox'}
                         , {field: 'type', title: '类型', templet: '#typeTp1', sort: true}
                         , {field: 'message', title: '签名', edit: 'text'}
+                        , {field: 'orderNum', title: '排序', edit: 'text', sort: true}
                     ]]
                 });
             }
@@ -118,26 +119,26 @@
                             return false;
                         }
                     });
-                    if (!flag){
+                    if (!flag) {
                         return false;
                     }
-                        $.ajax({
-                            url: '/asset/saveModelData',
-                            contentType: "application/json; charset=utf-8",
-                            dataType: "json",
-                            data: JSON.stringify(table.cache.table),
-                            type: 'post',
-                            success: function (object) {
-                                if (object.code == 1) {
-                                    layer.msg("保存成功");
-                                    table.reload("table", {
-                                        data: object.data
-                                    });
-                                } else {
-                                    layer.msg("保存失败" + object.message);
-                                }
+                    $.ajax({
+                        url: '/asset/saveModelData',
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        data: JSON.stringify(table.cache.table),
+                        type: 'post',
+                        success: function (object) {
+                            if (object.code == 1) {
+                                layer.msg("保存成功");
+                                table.reload("table", {
+                                    data: object.data
+                                });
+                            } else {
+                                layer.msg("保存失败" + object.message);
                             }
-                        });
+                        }
+                    });
             }
         });
 

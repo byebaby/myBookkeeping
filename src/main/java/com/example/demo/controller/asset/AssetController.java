@@ -187,7 +187,7 @@ public class AssetController {
     @ResponseBody
     public Json getUserModelData(Long id) {
         if (id == null) {
-            List<AssetModel> assetModels = assetModelService.findByUserNameOrderByTypeDesc(SecurityUtils.getSubject().getPrincipal().toString());
+            List<AssetModel> assetModels = assetModelService.findByUserNameOrderByOrderNumAsc(SecurityUtils.getSubject().getPrincipal().toString());
             List<AccountingModelDto> dtos = accountingModelMapper.toDTOIgnoreId(assetModels);
             AssetMain assetMain = new AssetMain();
             assetMain.setAssetDetail(accountingModelMapper.toAssetDetail(dtos));
